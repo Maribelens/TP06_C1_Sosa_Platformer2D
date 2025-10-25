@@ -1,0 +1,17 @@
+using UnityEngine;
+
+[CreateAssetMenu(fileName = "PlayerSettings", menuName = "Clase80/PlayerSettings")]
+public class PlayerDataSo : ScriptableObject
+{
+    [Header("Inputs")]
+    public KeyCode keyCodeJump = KeyCode.Space;
+    public KeyCode keyCodeLeft = KeyCode.LeftArrow;
+    public KeyCode keyCodeRight = KeyCode.RightArrow;
+
+    [Header("Movement")]
+    public float speed = 5f;
+    public float jumpForce = 6f;
+
+    [Header("Bullet")]
+    public Bullet bulletPrefab;
+}
