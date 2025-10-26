@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform groundController;
     [SerializeField] private Vector2 boxDimensions;
     [SerializeField] private LayerMask jumpLayers;
-    private bool isGrounded;
+    [HideInInspector] public bool isGrounded;
     [SerializeField] private bool canMoveDuringJump;
     private bool jumpInput;
 

@@ -3,8 +3,11 @@ using UnityEngine;
 public class AnimationStates : MonoBehaviour
 {
     [SerializeField] private Animator animator;
+    [SerializeField] private PlayerDataSo playerData;
+
     private PlayerController player;
-    public PlayerDataSo playerData;
+    private EnemyController enemy;
+
     private static readonly int State = Animator.StringToHash("State");
     enum PlayerState
     {
@@ -13,7 +16,8 @@ public class AnimationStates : MonoBehaviour
         Jump = 3,
         Hurt = 4,
     };
-    [SerializeField] private PlayerState playerState = PlayerState.Idle;
+
+    [SerializeField] private PlayerState currentState = PlayerState.Idle;
 
     private void Awake()
     {
@@ -21,35 +25,46 @@ public class AnimationStates : MonoBehaviour
     }
     private void Start()
     {
-        animator.SetInteger(State, (int)playerState);
+        UpdateAnimatorState(currentState);
 
     }
     private void Update()
     {
-        if (Input.GetKey(playerData.keyCodeRight) || Input.GetKey(playerData.keyCodeLeft))
+        bool isMoving = Input.GetKey(playerData.keyCodeRight) || Input.GetKey(playerData.keyCodeLeft);
+        bool isJumping = Input.GetKey(playerData.keyCodeJump);
+
+        PlayerState newState = currentState;
+
+        if (isJumping)
         {
-            playerState = PlayerState.Walk;
-            animator.SetInteger(State, (int)playerState);
+            newState = PlayerState.Jump;
+        }
+        else if (isMoving)
+        {
+            newState = PlayerState.Walk;
         }
         else
         {
-            Invoke(nameof(ResetAnim), 1);
+            newState = PlayerState.Idle;
         }
 
-        if (Input.GetKey(playerData.keyCodeJump))
+        if(newState != currentState)
         {
-            playerState = PlayerState.Jump;
-            animator.SetInteger(State, (int)playerState);
+            currentState = newState;
+            UpdateAnimatorState(currentState);
         }
-        else
-        {
-            Invoke(nameof(ResetAnim), 1);
-        }
+
+        //CancelInvoke(nameof(ResetToIdle));
     }
 
-    private void ResetAnim()
+    public void ResetToIdle()
     {
-        playerState = PlayerState.Idle;
-        animator.SetInteger(State, (int)playerState);
+        currentState = PlayerState.Idle;
+        UpdateAnimatorState(currentState);
+    }
+
+    private void UpdateAnimatorState(PlayerState state)
+    {
+        animator.SetInteger(State, (int)state);
     }
 }

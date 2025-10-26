@@ -165,6 +165,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 20
-  effectPrefab: {fileID: 0}
+  effectPrefab: {fileID: 2383438687052634223, guid: 72aca1931845fb942a17894e708243eb, type: 3}
   damageSFX: {fileID: 0}
   sfxSource: {fileID: 0}

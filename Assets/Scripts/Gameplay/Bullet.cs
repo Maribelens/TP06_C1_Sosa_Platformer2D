@@ -6,17 +6,9 @@ public class Bullet : MonoBehaviour
     private Rigidbody2D rigidBody;
     [SerializeField] private GameObject effectPrefab;
 
-    [Header("Audio")]
-    [SerializeField] private AudioClip damageSFX;
-    [SerializeField] private AudioSource sfxSource;
-
     private void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
-        if (sfxSource == null)
-        {
-            sfxSource = GetComponent<AudioSource>();
-        }
     }
 
     private void Update()
@@ -24,7 +16,7 @@ public class Bullet : MonoBehaviour
         Vector3 direction = rigidBody.velocity;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         Debug.Log($"Angulo: {angle}");
-        transform.rotation = Quaternion.Euler(0, 0, angle-90);
+        transform.rotation = Quaternion.Euler(0, 0, angle - 90);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
