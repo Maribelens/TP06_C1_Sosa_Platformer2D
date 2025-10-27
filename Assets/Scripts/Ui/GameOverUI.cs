@@ -22,8 +22,6 @@ public class GameOverUI : MonoBehaviour
     {
         //show elements
         panelGameOver.SetActive(true);
-        //panelCoins.SetActive(false);
-        //panelDiamonds.SetActive(false);
     }
 
     private void OnPlayAgainClicked()

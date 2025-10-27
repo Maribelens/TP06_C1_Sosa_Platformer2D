@@ -6,14 +6,12 @@ public class PauseUI : MonoBehaviour
 {
     [Header("Panels")]
     [SerializeField] private GameObject panelMainPause;
-    //[SerializeField] private GameObject panelCredits;
     [SerializeField] private GameObject panelSettings;
 
     [Header("Buttons")]
     [SerializeField] private Button btnPlay;
     [SerializeField] private Button btnOptions;
     [SerializeField] private Button btnExit;
-    //[SerializeField] private Button btnCreditsBack;
     [SerializeField] private Button btnSettingsBack;
 
     private bool isPause;

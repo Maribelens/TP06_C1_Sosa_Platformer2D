@@ -99,7 +99,7 @@ public class GameManager : MonoBehaviour
         musicGameLoop.clip = gameOverMusic;
         musicGameLoop.Play();
 
-        //uiElements.ShowGameOverScreen();
+        gameOverUI.ShowGameOverScreen();
         Debug.Log("El alien fue derrotado");
     }
 

@@ -22,8 +22,6 @@ public class VictoryUI : MonoBehaviour
     {
         //show elements
         panelVictory.SetActive(true);
-        //panelCoins.SetActive(false);
-        //panelDiamonds.SetActive(false);
     }
 
     private void OnPlayAgainClicked()
