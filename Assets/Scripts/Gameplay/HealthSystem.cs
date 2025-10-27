@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HealthSystem : MonoBehaviour
@@ -8,6 +7,7 @@ public class HealthSystem : MonoBehaviour
     public event Action<int, int> onLifeUpdated; // <currentLife, maxLife>
     public event Action onInvulnerableStart;
     public event Action onInvulnerableEnd;
+    public event Action<float> onInvulnerabilityTimerUpdate;
     public event Action onDie;
 
     [SerializeField] private AudioClip damageSFX;
@@ -15,8 +15,10 @@ public class HealthSystem : MonoBehaviour
 
     [SerializeField] private int maxLife = 100;
     private int life = 100;
-    public float invulnerabilityTimer = 0f;
+    public float invulnerableTimeLeft = 0f;
     public bool isInvulnerable = false;
+
+    [SerializeField] private GameManager gameManager;
 
 
     private void Awake()
@@ -33,33 +35,50 @@ public class HealthSystem : MonoBehaviour
         onLifeUpdated?.Invoke(life, maxLife);
     }
 
-    private void Update()
-    {
-        PowerUpTimer();
-    }
+    //private void Update()
+    //{
+    //    PowerUpTimer();
+    //}
 
-    public void PowerUpTimer()
+    public void StartInvulnerability(float duration)
     {
-        if (isInvulnerable)
-        {
-            invulnerabilityTimer -= Time.deltaTime;
-            if (invulnerabilityTimer <= 0f)
-            {
-                isInvulnerable = false;
-                onInvulnerableEnd?.Invoke();
-                //Debug.Log("Protección terminada");
-            }
-        }
-    }
-
-    public void CollectInvulnerabilityPowerup(float duration)
-    {
-        isInvulnerable = true;
-        //Debug.Log("Protección activada");
-        invulnerabilityTimer = duration; // Por ejemplo, 5 segundos
-        onInvulnerableStart?.Invoke();
+        if( isInvulnerable) return;
+        StartCoroutine(InvulnerabilityRoutine(duration));
+        Debug.Log("Protección activada");
         Debug.Log($"Invulnerabilidad activada por {duration} segundos");
     }
+
+    private IEnumerator InvulnerabilityRoutine(float duration)
+    {
+        isInvulnerable = true;
+        invulnerableTimeLeft = duration; // Por ejemplo, 5 segundos
+        onInvulnerableStart?.Invoke();
+
+        while (invulnerableTimeLeft > 0)
+        {
+            invulnerableTimeLeft -= Time.deltaTime;
+            onInvulnerabilityTimerUpdate?.Invoke(invulnerableTimeLeft);
+            yield return null;
+        }
+
+        isInvulnerable = false;
+        onInvulnerableEnd?.Invoke();
+
+    }
+
+    //public void PowerUpTimer()
+    //{
+    //    if (isInvulnerable)
+    //    {
+    //        invulnerableTimeLeft -= Time.deltaTime;
+    //        if (invulnerableTimeLeft <= 0f)
+    //        {
+    //            isInvulnerable = false;
+    //            onInvulnerableEnd?.Invoke();
+    //            //Debug.Log("Protección terminada");
+    //        }
+    //    }
+    //}
 
     public void DoDamage(int damage)
     {
@@ -92,6 +111,7 @@ public class HealthSystem : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            gameManager.ActivateProtection();
             onDie?.Invoke();
         }
     }

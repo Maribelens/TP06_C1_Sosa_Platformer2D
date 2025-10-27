@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 3d367bf1482df4c4085533f60ca57274
+guid: 86379dd93bf72c24c8b9ccf8fa6584fc
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7382815913437294340
-    second: hud_heartFull_0
+      213: -4477380204327327266
+    second: coinGold_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 53
+  spritePixelsToUnits: 70
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: hud_heartFull_0
+      name: coinGold_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 53
-        height: 45
+        x: 16
+        y: 15
+        width: 38
+        height: 38
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,8 +140,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cf01875ea08fa8990800000000000000
-      internalID: -7382815913437294340
+      spriteID: ed924b42d662dd1c0800000000000000
+      internalID: -4477380204327327266
       vertices: []
       indices: 
       edges: []
@@ -157,7 +157,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      hud_heartFull_0: -7382815913437294340
+      coinGold_0: -4477380204327327266
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

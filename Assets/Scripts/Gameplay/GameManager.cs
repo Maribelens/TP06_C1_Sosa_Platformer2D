@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -9,6 +8,9 @@ public class GameManager : MonoBehaviour
 
 
     [Header("References")]
+    [SerializeField] private GameOverUI gameOverUI;
+    [SerializeField] private VictoryUI victoryUI;
+    [SerializeField] private HUDControllerUI hudUI;
     //[SerializeField] private UiElements uiElements;
     [SerializeField] private HealthSystem health;
 
@@ -16,6 +18,7 @@ public class GameManager : MonoBehaviour
     public int coins = 0;
     public int diamonds = 0;
     public int healtPlus = 20;
+    public int healtMinus = 15;
 
     [Header("Audio")]
     [SerializeField] private AudioClip gameplayMusic;
@@ -37,8 +40,8 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         Time.timeScale = 1;
-        health.onInvulnerableStart += ActivateProtection;
-        health.onInvulnerableEnd += DeactivateProtection;
+        //health.onInvulnerableStart += ActivateProtection;
+        //health.onInvulnerableEnd += DeactivateProtection;
     }
 
     public void ActivateProtection()
@@ -49,35 +52,44 @@ public class GameManager : MonoBehaviour
             return;
         }
         Debug.Log("Proteccion activada");
-        //uiElements.StartProtectionScreen(7);
+        health.StartInvulnerability(7f);
+        //uiElements.ShowProtectionScreen();
         //health.CollectInvulnerabilityPowerup(duration);
         // Acá podés cambiar color del jugador, activar un efecto, etc.
     }
 
-    public void DeactivateProtection()
-    {
-        Debug.Log("Proteccion terminada");
-        //uiElements.EndProtectionScreen();
-        // Acá revertís el color, desactivás el efecto, etc.
-    }
+    ////public void DeactivateProtection()
+    ////{
+    ////    if(health.invulnerableTimeLeft == 0)
+    ////    {
+    ////        Debug.Log("Proteccion terminada");
+    ////        //uiElements.EndProtectionScreen();
+    ////    }
+    ////    // Acá revertís el color, desactivás el efecto, etc.
+    ////}
 
     public void AddCoins(int amount)
     {
         coins += amount;
-        //uiElements.UpdatedCoins(coins);
+        hudUI.UpdatedCoins(coins);
         Debug.Log("Monedas: " + coins);
     }
     public void AddGems(int amount)
     {
         diamonds += amount;
-        //uiElements.UpdatedDiamonds(diamonds);
+        hudUI.UpdatedDiamonds(diamonds);
         Debug.Log("Diamantes: " + diamonds);
     }
 
-    public void AddHealth()
-    {
-        health.Heal(healtPlus);
-    }
+    //public void AddHealth()
+    //{
+    //    health.Heal(healtPlus);
+    //}
+
+    //public void ReduceHealth()
+    //{
+    //    health.DoDamage(healtMinus);
+    //}
 
     public void PlayerDefeated()
     {
