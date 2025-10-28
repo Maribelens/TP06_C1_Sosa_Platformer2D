@@ -7,6 +7,7 @@ public class GameOverUI : MonoBehaviour
     [SerializeField] private GameObject panelGameOver;
     [SerializeField] private Button playAgainButton;
     [SerializeField] private Button mainMenuButton;
+    [SerializeField] private CanvasGroup canvasGroup;
 
     private void Awake()
     {
@@ -14,6 +15,11 @@ public class GameOverUI : MonoBehaviour
         {
             Debug.LogError("Faltan referencias de paneles en GameOverUI.");
         }
+        //canvasGroup.GetComponent<CanvasGroup>();
+        canvasGroup.alpha = 0;
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
+
         playAgainButton.onClick.AddListener(OnPlayAgainClicked);
         mainMenuButton.onClick.AddListener(OnExitGameClicked);
     }
@@ -21,7 +27,11 @@ public class GameOverUI : MonoBehaviour
     public void ShowGameOverScreen()
     {
         //show elements
-        panelGameOver.SetActive(true);
+        canvasGroup.alpha = 1;
+        canvasGroup.interactable = true;
+        canvasGroup.blocksRaycasts = true;
+
+        //panelGameOver.SetActive(true);
     }
 
     private void OnPlayAgainClicked()
