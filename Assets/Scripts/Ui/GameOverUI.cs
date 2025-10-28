@@ -15,7 +15,7 @@ public class GameOverUI : MonoBehaviour
         {
             Debug.LogError("Faltan referencias de paneles en GameOverUI.");
         }
-        //canvasGroup.GetComponent<CanvasGroup>();
+        //gameOverCanvasGroup.GetComponent<CanvasGroup>();
         canvasGroup.alpha = 0;
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
@@ -30,7 +30,6 @@ public class GameOverUI : MonoBehaviour
         canvasGroup.alpha = 1;
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
-
         //panelGameOver.SetActive(true);
     }
 
@@ -39,7 +38,6 @@ public class GameOverUI : MonoBehaviour
         SceneManager.LoadScene(1);
         Time.timeScale = 1;
     }
-
     private void OnExitGameClicked()
     {
         SceneManager.LoadScene(0);

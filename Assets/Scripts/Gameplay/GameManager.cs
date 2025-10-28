@@ -8,10 +8,10 @@ public class GameManager : MonoBehaviour
 
 
     [Header("References")]
-    [SerializeField] private GameOverUI gameOverUI;
-    [SerializeField] private VictoryUI victoryUI;
-    [SerializeField] private HUDControllerUI hudUI;
-    //[SerializeField] private UiElements uiElements;
+    //[SerializeField] private GameOverUI gameOverUI;
+    //[SerializeField] private VictoryUI victoryUI;
+    //[SerializeField] private HUDControllerUI hudUI;
+    [SerializeField] private UiManager ui;
     [SerializeField] private HealthSystem health;
 
     [Header("Pickables")]
@@ -25,16 +25,16 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioClip gameOverMusic;
     [SerializeField] private AudioClip victoryMusic;
     //[SerializeField] private AudioClip applauseSfx;
-    [SerializeField] private AudioSource musicGameplay;
-    [SerializeField] private AudioSource musicGameLoop;
+    //[SerializeField] private AudioSource musicGameplay;
+    //[SerializeField] private AudioSource musicGameLoop;
 
     private void Awake()
     {
         //uiElements = GameObject.Find("UI").GetComponent<UiElements>();
         health = GameObject.Find("PLAYER").GetComponent<HealthSystem>();
 
-        musicGameplay.clip = gameplayMusic;
-        musicGameplay.Play();
+        //musicGameplay.clip = gameplayMusic;
+        //musicGameplay.Play();
     }
 
     private void Start()
@@ -71,13 +71,13 @@ public class GameManager : MonoBehaviour
     public void AddCoins(int amount)
     {
         coins += amount;
-        hudUI.UpdatedCoins(coins);
+        ui.UpdatedCoins(coins);
         Debug.Log("Monedas: " + coins);
     }
     public void AddGems(int amount)
     {
         diamonds += amount;
-        hudUI.UpdatedDiamonds(diamonds);
+        ui.UpdatedDiamonds(diamonds);
         Debug.Log("Diamantes: " + diamonds);
     }
 
@@ -95,23 +95,23 @@ public class GameManager : MonoBehaviour
     {
         //CurrentState = GameState.GameOver;
         Time.timeScale = 0;
-        musicGameplay.Stop();
-        musicGameLoop.clip = gameOverMusic;
-        musicGameLoop.Play();
+        //musicGameplay.Stop();
+        //musicGameLoop.clip = gameOverMusic;
+        //musicGameLoop.Play();
 
-        gameOverUI.ShowGameOverScreen();
+        ui.ShowGameOverScreen();
         Debug.Log("El alien fue derrotado");
     }
 
     public void PlayerVictory()
     {
         Time.timeScale = 0;
-        musicGameplay.Stop();
-        musicGameLoop.clip = victoryMusic;
-        //musicGameLoop.clip = applauseSfx;
-        musicGameLoop.Play();
+        //musicGameplay.Stop();
+        //musicGameLoop.clip = victoryMusic;
+        ////musicGameLoop.clip = applauseSfx;
+        //musicGameLoop.Play();
 
-        //uiElements.ShowVictoryScreen();
+        ui.ShowVictoryScreen();
         Debug.Log("El alien ha ganado");
     }
 }

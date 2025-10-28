@@ -5,8 +5,8 @@ public class AnimationStates : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private PlayerDataSo playerData;
 
-    private PlayerController player;
-    private EnemyController enemy;
+    //private PlayerController player;
+    //private EnemyController enemy;
 
     private static readonly int State = Animator.StringToHash("State");
     enum PlayerState

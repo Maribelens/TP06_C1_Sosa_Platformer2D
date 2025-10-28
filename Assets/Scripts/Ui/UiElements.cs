@@ -19,8 +19,8 @@
 //    //private bool isProtectionActive = false;
 
 //    [Header("Game Over Buttons")]
-//    [SerializeField] private Button playAgainButton;
-//    [SerializeField] private Button mainMenuButton;
+//    [SerializeField] private Button gameOverPlayAgainButton;
+//    [SerializeField] private Button gameOverMainMenuButton;
 
 //    [Header("Victory Buttons")]
 //    [SerializeField] private Button winPlayAgainButton;
@@ -39,8 +39,8 @@
 //            Debug.LogError("Faltan referencias de paneles en UiElements.");
 //        }
 
-//        playAgainButton.onClick.AddListener(OnPlayAgainClicked);
-//        mainMenuButton.onClick.AddListener(OnExitGameClicked);
+//        gameOverPlayAgainButton.onClick.AddListener(OnPlayAgainClicked);
+//        gameOverMainMenuButton.onClick.AddListener(OnExitGameClicked);
 
 //        winPlayAgainButton.onClick.AddListener(OnPlayAgainClicked);
 //        winMainMenuButton.onClick.AddListener(OnExitGameClicked);
@@ -117,8 +117,8 @@
 
 //    private void OnDestro()
 //    {
-//        playAgainButton.onClick.RemoveAllListeners();
-//        mainMenuButton.onClick.RemoveAllListeners();
+//        gameOverPlayAgainButton.onClick.RemoveAllListeners();
+//        gameOverMainMenuButton.onClick.RemoveAllListeners();
 
 //        winPlayAgainButton.onClick.RemoveAllListeners();
 //        winMainMenuButton.onClick.RemoveAllListeners();
