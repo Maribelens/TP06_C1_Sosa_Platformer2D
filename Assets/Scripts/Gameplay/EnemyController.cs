@@ -28,6 +28,7 @@ public class EnemyController : MonoBehaviour
         if (rb2D == null)
         {
             rb2D = GetComponent<Rigidbody2D>();
+            rb2D.bodyType = RigidbodyType2D.Dynamic;
         }
         healthSystem = GetComponent<HealthSystem>();
         healthSystem.onDie += HealthSystem_onDie;
@@ -35,7 +36,6 @@ public class EnemyController : MonoBehaviour
         {
             sfxSource = GetComponent<AudioSource>();
         }
-        rb2D.bodyType = RigidbodyType2D.Dynamic;
     }
 
     private void Update()

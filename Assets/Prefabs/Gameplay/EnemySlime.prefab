@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 3099647522831553717}
   - component: {fileID: 4723809007962864661}
   m_Layer: 7
-  m_Name: Enemy
+  m_Name: EnemySlime
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -163,8 +163,9 @@ MonoBehaviour:
   damageSFX: {fileID: 8300000, guid: afbe2bc463a7dcd4daa38f4fdab68c16, type: 3}
   sfxSource: {fileID: 0}
   maxLife: 100
-  invulnerabilityTimer: 0
+  invulnerableTimeLeft: 0
   isInvulnerable: 0
+  gameManager: {fileID: 0}
 --- !u!95 &4451072476697599075
 Animator:
   serializedVersion: 7
