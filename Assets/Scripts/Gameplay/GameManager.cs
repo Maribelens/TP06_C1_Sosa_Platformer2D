@@ -22,19 +22,20 @@ public class GameManager : MonoBehaviour
 
     [Header("Audio")]
     [SerializeField] private AudioClip gameplayMusic;
+
     [SerializeField] private AudioClip gameOverMusic;
     [SerializeField] private AudioClip victoryMusic;
     //[SerializeField] private AudioClip applauseSfx;
-    //[SerializeField] private AudioSource musicGameplay;
-    //[SerializeField] private AudioSource musicGameLoop;
+    [SerializeField] private AudioSource musicGameplay;
+    [SerializeField] private AudioSource musicGameLoop;
 
     private void Awake()
     {
+        //musicGameplay = GameObject.Find("MusicGameplayLoop").GetComponent<AudioSource>();
         //uiElements = GameObject.Find("UI").GetComponent<UiElements>();
         health = GameObject.Find("PLAYER").GetComponent<HealthSystem>();
-
-        //musicGameplay.clip = gameplayMusic;
-        //musicGameplay.Play();
+        musicGameplay.clip = gameplayMusic;
+        musicGameplay.Play();
     }
 
     private void Start()
@@ -95,9 +96,9 @@ public class GameManager : MonoBehaviour
     {
         //CurrentState = GameState.GameOver;
         Time.timeScale = 0;
-        //musicGameplay.Stop();
-        //musicGameLoop.clip = gameOverMusic;
-        //musicGameLoop.Play();
+        musicGameplay.Stop();
+        musicGameLoop.clip = gameOverMusic;
+        musicGameLoop.Play();
 
         ui.ShowGameOverScreen();
         Debug.Log("El alien fue derrotado");
@@ -106,10 +107,10 @@ public class GameManager : MonoBehaviour
     public void PlayerVictory()
     {
         Time.timeScale = 0;
-        //musicGameplay.Stop();
-        //musicGameLoop.clip = victoryMusic;
-        ////musicGameLoop.clip = applauseSfx;
-        //musicGameLoop.Play();
+        musicGameplay.Stop();
+        musicGameLoop.clip = victoryMusic;
+        //musicGameLoop.clip = applauseSfx;
+        musicGameLoop.Play();
 
         ui.ShowVictoryScreen();
         Debug.Log("El alien ha ganado");

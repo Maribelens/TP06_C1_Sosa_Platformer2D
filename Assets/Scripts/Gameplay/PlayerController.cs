@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -19,6 +20,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Vector2 boxDimensions;
     [SerializeField] private LayerMask jumpLayers;
     [HideInInspector] public bool isGrounded;
+    [SerializeField] private bool wasGrounded;
     [SerializeField] private bool canMoveDuringJump;
     private bool jumpInput;
 
@@ -32,9 +34,10 @@ public class PlayerController : MonoBehaviour
     private float lastDamageTime;
 
     [Header("Audio")]
-    public AudioClip jumpSFX;
-    public AudioClip throwSFX;
-    public AudioSource sfxSource;
+    [SerializeField] private AudioClip jumpSFX;
+    [SerializeField] private AudioClip throwSFX;
+    [SerializeField] private AudioClip landSFX;
+    [SerializeField] private AudioSource sfxSource;
 
     private void Awake()
     {
@@ -64,11 +67,27 @@ public class PlayerController : MonoBehaviour
         {
             jumpInput = true;
         }
-        isGrounded = Physics2D.OverlapBox(groundController.position, boxDimensions, 0f, jumpLayers);
+        bool currentlyGrounded = Physics2D.OverlapBox(groundController.position, boxDimensions, 0f, jumpLayers);
+
+        if(!wasGrounded && currentlyGrounded)
+        {
+            OnLand();
+        }
+        isGrounded = currentlyGrounded;
+        wasGrounded = currentlyGrounded;
 
         if (Input.GetMouseButtonDown(0))
         {
             Fire();
+        }
+    }
+
+    private void OnLand()
+    {
+        if(landSFX != null && sfxSource != null)
+        {
+            sfxSource.clip = landSFX;
+            sfxSource.Play();
         }
     }
 
