@@ -9136,6 +9136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb2D: {fileID: 0}
   animator: {fileID: 0}
+  enemyData: {fileID: 11400000, guid: 888d7c2446970d241b23b01d02c48408, type: 2}
   deathEffectPrefab: {fileID: 4724376713512758365, guid: c4c52f6c693c24645a3c33abd8490c9e, type: 3}
   currentSpeed: 0.5
   speed: 0.5

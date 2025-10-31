@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlayerSettings", menuName = "Clase80/PlayerSettings")]
+[CreateAssetMenu(menuName = "Configs/PlayerConfig")]
 public class PlayerDataSo : ScriptableObject
 {
     [Header("Inputs")]
@@ -8,7 +8,8 @@ public class PlayerDataSo : ScriptableObject
     public KeyCode keyCodeLeft = KeyCode.LeftArrow;
     public KeyCode keyCodeRight = KeyCode.RightArrow;
 
-    [Header("Movement")]
+    [Header("PlayerSettings")]
+    public int maxLife = 100;
     public float speed = 5f;
     public float jumpForce = 6f;
 

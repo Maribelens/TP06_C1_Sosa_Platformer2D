@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class HealthSystem : MonoBehaviour
 {
+    //[SerializeField] private PlayerDataSo playerData;
+
     public event Action<int, int> onLifeUpdated; // <currentLife, maxLife>
     public event Action onInvulnerableStart;
     public event Action onInvulnerableEnd;
@@ -13,7 +15,7 @@ public class HealthSystem : MonoBehaviour
     [SerializeField] private AudioClip damageSFX;
     [SerializeField] private AudioSource sfxSource;
 
-    [SerializeField] private int maxLife = 100;
+    public int maxLife = 100;
     private int life = 100;
     public float invulnerableTimeLeft = 0f;
     public bool isInvulnerable = false;
@@ -24,6 +26,8 @@ public class HealthSystem : MonoBehaviour
     private void Awake()
     {
         life = maxLife;
+        //playerData.maxLife = life;
+        //life = maxLife;
         if (sfxSource == null)
         {
             sfxSource = GetComponent<AudioSource>();

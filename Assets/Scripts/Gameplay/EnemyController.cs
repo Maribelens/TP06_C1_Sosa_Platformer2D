@@ -6,6 +6,8 @@ public class EnemyController : MonoBehaviour
     [Header("Referencias")]
     [SerializeField] private Rigidbody2D rb2D;
     [SerializeField] private Animator animator;
+
+    [SerializeField] private GameConfigSo enemyData;
     private HealthSystem healthSystem;
     [SerializeField] private GameObject deathEffectPrefab;
 
@@ -36,6 +38,11 @@ public class EnemyController : MonoBehaviour
         {
             sfxSource = GetComponent<AudioSource>();
         }
+    }
+
+    private void Start()
+    {
+        healthSystem.maxLife = enemyData.maxLife;
     }
 
     private void Update()
