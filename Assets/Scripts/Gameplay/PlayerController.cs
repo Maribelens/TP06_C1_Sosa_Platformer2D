@@ -54,6 +54,7 @@ public class PlayerController : MonoBehaviour
             sfxSource = GetComponent<AudioSource>();
         }
         healthSystem = GetComponent<HealthSystem>();
+        healthSystem.maxLife = playerData.maxLife;
         healthSystem.onDie += HealthSystem_onDie;
     }
 

@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -27,7 +26,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioClip victoryMusic;
     //[SerializeField] private AudioClip applauseSfx;
     [SerializeField] private AudioSource musicGameplay;
-    [SerializeField] private AudioSource musicGameLoop;
+    [SerializeField] private AudioSource musicUI;
 
     private void Awake()
     {
@@ -97,8 +96,8 @@ public class GameManager : MonoBehaviour
         //CurrentState = GameState.GameOver;
         Time.timeScale = 0;
         musicGameplay.Stop();
-        musicGameLoop.clip = gameOverMusic;
-        musicGameLoop.Play();
+        musicUI.clip = gameOverMusic;
+        musicUI.Play();
 
         ui.ShowGameOverScreen();
         Debug.Log("El alien fue derrotado");
@@ -108,9 +107,9 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0;
         musicGameplay.Stop();
-        musicGameLoop.clip = victoryMusic;
-        //musicGameLoop.clip = applauseSfx;
-        musicGameLoop.Play();
+        musicUI.clip = victoryMusic;
+        //musicUI.clip = applauseSfx;
+        musicUI.Play();
 
         ui.ShowVictoryScreen();
         Debug.Log("El alien ha ganado");

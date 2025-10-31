@@ -11,6 +11,7 @@ public class AudioSettingsUI : MonoBehaviour
     [SerializeField] private Slider masterSlider;
     [SerializeField] private Slider musicSlider;
     [SerializeField] private Slider sfxSlider;
+    [SerializeField] private Slider uiSlider;
 
     //[SerializeField] private GameManager gameManager;
 
@@ -21,6 +22,7 @@ public class AudioSettingsUI : MonoBehaviour
         masterSlider.onValueChanged.AddListener(OnMasterVolumeChanged);
         musicSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
         sfxSlider.onValueChanged.AddListener(OnSFXVolumeChanged);
+        uiSlider.onValueChanged.AddListener(OnUIVolumeChanged);
         if (PlayerPrefs.HasKey("musicVolume"))
         {
             LoadVolume();
@@ -46,6 +48,13 @@ public class AudioSettingsUI : MonoBehaviour
         volume = sfxSlider.value;
         audioMixer.SetFloat("sfxVolume", Mathf.Log10(volume) * 20);
         PlayerPrefs.SetFloat("sfxVolume", volume);
+    }
+
+    private void OnUIVolumeChanged(float volume)
+    {
+        volume = uiSlider.value;
+        audioMixer.SetFloat("uiVolume", Mathf.Log10(volume) * 20);
+        PlayerPrefs.SetFloat("uiVolume", volume);
     }
 
     private void LoadVolume()
