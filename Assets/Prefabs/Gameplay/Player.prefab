@@ -32,7 +32,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1974851321070280444}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -6, y: -1.91, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 1124073081205691337, guid: 2c9131ce90889024d9b67eb2c64503ed, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -182,6 +182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerData: {fileID: 11400000, guid: 63f05e520040ea745abc4dd9a14429c1, type: 2}
   healthSystem: {fileID: 0}
+  gameManager: {fileID: 0}
   rigidBody: {fileID: 0}
   animator: {fileID: 0}
   groundController: {fileID: 7074532156309134840}
@@ -190,12 +191,15 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   isGrounded: 0
+  wasGrounded: 0
   canMoveDuringJump: 1
+  maxJumps: 2
   firePoint: {fileID: 8250217614113056543}
-  deathEffectPrefab: {fileID: 0}
+  deathEffectPrefab: {fileID: 2383438687052634223, guid: 72aca1931845fb942a17894e708243eb, type: 3}
   damage: 20
   jumpSFX: {fileID: 8300000, guid: fd2b8688ffe59f64e91f0a3c26c98818, type: 3}
   throwSFX: {fileID: 8300000, guid: 711b796b54da0ac4b94843cdc58bfded, type: 3}
+  landSFX: {fileID: 8300000, guid: 5a2ca4800b00e3b40b66de5f7087c113, type: 3}
   sfxSource: {fileID: 0}
 --- !u!114 &3072101803552094358
 MonoBehaviour:
@@ -212,7 +216,7 @@ MonoBehaviour:
   damageSFX: {fileID: 8300000, guid: afbe2bc463a7dcd4daa38f4fdab68c16, type: 3}
   sfxSource: {fileID: 0}
   maxLife: 100
-  invulnerabilityTimer: 0
+  invulnerableTimeLeft: 0
   isInvulnerable: 0
 --- !u!95 &7840093228406196017
 Animator:
@@ -260,7 +264,7 @@ AudioSource:
   m_GameObject: {fileID: 1974851321070280444}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -3075270783495258134, guid: 85608477418d7be4eb73bcc73b169cb1, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
@@ -373,7 +377,7 @@ Transform:
   m_GameObject: {fileID: 6829368071007099784}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.35, z: 0}
+  m_LocalPosition: {x: 0, y: -0.51, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -404,7 +408,7 @@ Transform:
   m_GameObject: {fileID: 7502022423178581685}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.348, y: -0.204, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

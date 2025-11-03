@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -20,6 +19,8 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool isGrounded;
     [SerializeField] private bool wasGrounded;
     [SerializeField] private bool canMoveDuringJump;
+    [SerializeField] private int maxJumps = 2;
+    private int jumpsRemaining;
     private bool jumpInput;
 
     [Header("Fire")]
@@ -52,13 +53,12 @@ public class PlayerController : MonoBehaviour
             sfxSource = GetComponent<AudioSource>();
         }
         healthSystem = GetComponent<HealthSystem>();
-        //healthSystem.maxLife = playerData.maxLife;
         healthSystem.onDie += HealthSystem_onDie;
     }
     private void Start()
     {
-        Debug.Log($"Velocidad del jugador: {playerData.speed}");
-        //instance.PlayerDefeated +=       
+        jumpsRemaining = maxJumps;
+        Debug.Log($"Velocidad del jugador: {playerData.speed}");     
     }
     private void Update()
     {
@@ -74,6 +74,14 @@ public class PlayerController : MonoBehaviour
         }
         isGrounded = currentlyGrounded;
         wasGrounded = currentlyGrounded;
+
+        if (isGrounded)
+        {
+            jumpsRemaining = maxJumps - 1;
+        }
+
+        Debug.Log($"Grounded: {isGrounded}, Jumps: {jumpsRemaining}");
+
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -139,16 +147,26 @@ public class PlayerController : MonoBehaviour
     private void TryJump()
     {
         if (!jumpInput) { return; }
-        if (!isGrounded) { return; }
+        //if (!isGrounded) { return; }
+        if(jumpsRemaining <= 0) { return; }
         Jump();
+        //jumpsRemaining = Mathf.Max(0, jumpsRemaining - 1);
+
     }
 
     private void Jump()
     {
         jumpInput = false;
+        rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0f);
         rigidBody.AddForce(Vector2.up * playerData.jumpForce, ForceMode2D.Impulse);
-        sfxSource.clip = jumpSFX;
-        sfxSource.Play();
+
+        jumpsRemaining--;
+
+        if(jumpSFX != null && sfxSource != null)
+        {
+            sfxSource.clip = jumpSFX;
+            sfxSource.Play();
+        }
     }
 
     private void OnDrawGizmos()
@@ -192,7 +210,6 @@ public class PlayerController : MonoBehaviour
     private void HandleDeath()
     {
         gameManager.SetGameState(GameManager.GameState.GameOver);
-        //gameManager.PlayerDefeated();
         Destroy(gameObject);
         Debug.Log("Murió el player");
     }

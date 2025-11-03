@@ -82,7 +82,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 5173708987094773373, guid: 033320d826f38ce4284f6e23c1b33b2c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -135,6 +135,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb2D: {fileID: 0}
   animator: {fileID: 0}
+  enemyData: {fileID: 11400000, guid: 0a26a47663252674685590b4dc0df486, type: 2}
+  healthSystem: {fileID: 0}
   deathEffectPrefab: {fileID: 4724376713512758365, guid: c4c52f6c693c24645a3c33abd8490c9e, type: 3}
   currentSpeed: 2
   speed: 2
@@ -162,10 +164,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageSFX: {fileID: 8300000, guid: afbe2bc463a7dcd4daa38f4fdab68c16, type: 3}
   sfxSource: {fileID: 0}
-  maxLife: 100
+  maxLife: 60
   invulnerableTimeLeft: 0
   isInvulnerable: 0
-  gameManager: {fileID: 0}
 --- !u!95 &4451072476697599075
 Animator:
   serializedVersion: 7
