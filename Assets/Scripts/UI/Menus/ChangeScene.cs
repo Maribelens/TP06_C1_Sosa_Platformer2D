@@ -37,7 +37,7 @@ public class ChangeScene : MonoBehaviour
 
     private void OnPlayClicked()
     {
-        SceneManager.LoadScene("Gameplay");
+        SceneManager.LoadScene(1);
     }
 
     public void OnDestroy()

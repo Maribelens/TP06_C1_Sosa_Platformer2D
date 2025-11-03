@@ -9,7 +9,7 @@ public class PlayerDataSo : ScriptableObject
     public KeyCode keyCodeRight = KeyCode.RightArrow;
 
     [Header("PlayerSettings")]
-    public int maxLife;
+    public int maxLife = 100;
     public float speed = 5f;
     public float jumpForce = 6f;
 

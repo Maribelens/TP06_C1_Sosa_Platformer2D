@@ -7,12 +7,10 @@ public class PlayerController : MonoBehaviour
     [Header("Scripts")]
     [SerializeField] private PlayerDataSo playerData;
     [SerializeField] private HealthSystem healthSystem;
-    //[SerializeField] private GameManager gameManager;
+    [SerializeField] private GameManager gameManager;
 
     [Header("Refernces")]
     [SerializeField] private Rigidbody2D rigidBody;
-
-    [Header("Movement")]
     [SerializeField] private Animator animator;
 
     [Header("Jump")]
@@ -54,13 +52,13 @@ public class PlayerController : MonoBehaviour
             sfxSource = GetComponent<AudioSource>();
         }
         healthSystem = GetComponent<HealthSystem>();
-        healthSystem.maxLife = playerData.maxLife;
+        //healthSystem.maxLife = playerData.maxLife;
         healthSystem.onDie += HealthSystem_onDie;
     }
-
     private void Start()
     {
         Debug.Log($"Velocidad del jugador: {playerData.speed}");
+        //instance.PlayerDefeated +=       
     }
     private void Update()
     {
@@ -82,7 +80,6 @@ public class PlayerController : MonoBehaviour
             Fire();
         }
     }
-
     private void OnLand()
     {
         if(landSFX != null && sfxSource != null)
@@ -91,7 +88,6 @@ public class PlayerController : MonoBehaviour
             sfxSource.Play();
         }
     }
-
     private void FixedUpdate()
     {
         Movement();
@@ -195,6 +191,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleDeath()
     {
+        gameManager.SetGameState(GameManager.GameState.GameOver);
         //gameManager.PlayerDefeated();
         Destroy(gameObject);
         Debug.Log("Murió el player");

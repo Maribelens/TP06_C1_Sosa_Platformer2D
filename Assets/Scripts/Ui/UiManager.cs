@@ -1,134 +1,115 @@
-using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class UiManager : MonoBehaviour
 {
-    [Header("HUD panele")]
+    ////[Header("Audio")]
+    ////[SerializeField] private AudioSource sfxSourceUI;
 
-    [Header("Panel Coins")]
-    [SerializeField] private GameObject panelCoins;
-    [SerializeField] private TextMeshProUGUI coinText;
+    ////[Header("Game Over panel")]
+    ////[SerializeField] private CanvasGroup gameoverPanel;
+    ////[SerializeField] private Button gameOverPlayAgainButton;
+    ////[SerializeField] private Button gameOverMainMenuButton;
 
-    [Header("Panel Diamonds")]
-    [SerializeField] private GameObject panelDiamonds;
-    [SerializeField] private TextMeshProUGUI diamondsText;
+    ////[Header("Victory panel")]
+    ////[SerializeField] private CanvasGroup victoryPanel;
+    ////[SerializeField] private Button victoryPlayAgainButton;
+    ////[SerializeField] private Button victoryMainMenuButton;
 
-    [Header("Panel PowerUp")]
-    [SerializeField] private GameObject panelPowerUp;
-    [SerializeField] private TextMeshProUGUI timerText;
+    ////[Header("Scripts")]
+    ////[SerializeField] private HealthSystem health;
+    ////[SerializeField] private GameManager gameManager;
 
-    [Header("Audio")]
-    [SerializeField] private AudioClip gameOverSFX;
-    [SerializeField] private AudioSource sfxSourceUI;
+    ////private void Awake()
+    ////{
+    ////    sfxSourceUI = GetComponent<AudioSource>();
+    ////    //gameoverPanel.GetComponent<CanvasGroup>();
+    ////    SetCanvasGroup(gameoverPanel, false);
+    ////    SetCanvasGroup(victoryPanel, false);
+    ////    AddButtonsListeners();
+    ////}
 
+    ////private void Start()
+    ////{
+    ////    sfxSourceUI.loop = false;
+    ////}
 
-    [Header("Game Over panel")]
-    [SerializeField] private GameObject panelGameOver;
-    [SerializeField] private Button gameOverPlayAgainButton;
-    [SerializeField] private Button gameOverMainMenuButton;
-    [SerializeField] private CanvasGroup gameOverCanvasGroup;
+    ////private void OnEnable()
+    ////{
+    ////    if (gameManager != null)
+    ////    {
+    ////        gameManager.OnGameOver += ShowGameOverScreen;
+    ////        gameManager.OnVictory += ShowVictoryScreen;
+    ////        //gameManager.OnStateChanged += HandleStateChange;
+    ////    }
+    ////}
 
-    [Header("Victory panel")]
-    [SerializeField] private GameObject panelVictory;
-    [SerializeField] private Button victoryPlayAgainButton;
-    [SerializeField] private Button victoryMainMenuButton;
-    [SerializeField] private CanvasGroup victoryCanvasGroup;
+    ////private void OnDisable()
+    ////{
+    ////    gameManager.OnGameOver -= ShowGameOverScreen;
+    ////    gameManager.OnVictory -= ShowVictoryScreen;
+    ////}
 
-    [Header("Scripts")]
-    [SerializeField] private HealthSystem health;
+    ////private void OnDestroy()
+    ////{
+    ////    RemoveButtonsListeners();
+    ////}
 
-    private void Awake()
-    {
-        if (!panelGameOver || !panelCoins || !panelDiamonds)
-        {
-            Debug.LogError("Faltan referencias de paneles en UiElements.");
-        }
-        sfxSourceUI = GetComponent<AudioSource>();
-        //gameOverCanvasGroup.GetComponent<CanvasGroup>();
-        gameOverCanvasGroup.alpha = 0;
-        gameOverCanvasGroup.interactable = false;
-        gameOverCanvasGroup.blocksRaycasts = false;
+    ////private void AddButtonsListeners()
+    ////{
+    ////    gameOverPlayAgainButton.onClick.AddListener(OnPlayAgainClicked);
+    ////    gameOverMainMenuButton.onClick.AddListener(OnExitGameClicked);
+    ////    victoryPlayAgainButton.onClick.AddListener(OnPlayAgainClicked);
+    ////    victoryMainMenuButton.onClick.AddListener(OnExitGameClicked);
+    ////}
+    ////private void RemoveButtonsListeners()
+    ////{
+    ////    gameOverPlayAgainButton.onClick.RemoveAllListeners();
+    ////    gameOverMainMenuButton.onClick.RemoveAllListeners();
+    ////    victoryPlayAgainButton.onClick.RemoveAllListeners();
+    ////    victoryMainMenuButton.onClick.RemoveAllListeners();
+    ////}
+    ////private void SetCanvasGroup(CanvasGroup canvasGroup, bool state)
+    ////{
+    ////    canvasGroup.alpha = state ? 1 : 0;
+    ////    canvasGroup.interactable = state;
+    ////    canvasGroup.blocksRaycasts = state;
+    ////}
+    //////private void HandleStateChange(GameManager.GameState state)
+    //////{
+    //////    switch (state)
+    //////    {
+    //////        case GameManager.GameState.GameOver:
+    //////            ShowGameOverScreen();
+    //////            break;
+    //////        case GameManager.GameState.Victory:
+    //////            ShowVictoryScreen();
+    //////            break;
+    //////    }
+    //////}
+    ////public void ShowGameOverScreen()
+    ////{
+    ////    //show elements
+    ////    gameoverPanel.alpha = 1;
+    ////    gameoverPanel.interactable = true;
+    ////    gameoverPanel.blocksRaycasts = true;
+    ////    //panelGameOver.SetActive(true);
+    ////}
+    ////public void ShowVictoryScreen()
+    ////{
+    ////    //show elements
+    ////    victoryPanel.alpha = 1;
+    ////    victoryPanel.interactable = true;
+    ////    victoryPanel.blocksRaycasts = true;
 
-        victoryCanvasGroup.alpha = 0;
-        victoryCanvasGroup.interactable = false;
-        victoryCanvasGroup.blocksRaycasts = false;
-
-        gameOverPlayAgainButton.onClick.AddListener(OnPlayAgainClicked);
-        gameOverMainMenuButton.onClick.AddListener(OnExitGameClicked);
-        victoryPlayAgainButton.onClick.AddListener(OnPlayAgainClicked);
-        victoryMainMenuButton.onClick.AddListener(OnExitGameClicked);
-    }
-
-    private void Start()
-    {
-        health.onInvulnerableStart += ShowProtectionScreen;
-        health.onInvulnerableEnd += EndProtectionScreen;
-        health.onInvulnerabilityTimerUpdate += UpdateTimer;
-        sfxSourceUI.loop = false;
-    }
-
-    public void UpdatedCoins(int amount)
-    {
-        coinText.text = amount.ToString();
-    }
-    public void UpdatedDiamonds(int amount)
-    {
-        diamondsText.text = amount.ToString();
-    }
-
-    public void ShowProtectionScreen()
-    {
-        health.isInvulnerable = true;
-        panelPowerUp.SetActive(true);
-    }
-
-    public void EndProtectionScreen()
-    {
-        health.isInvulnerable = false;
-        panelPowerUp.SetActive(false);
-    }
-
-    private void UpdateTimer(float timeLeft)
-    {
-        timerText.text = health.invulnerableTimeLeft.ToString("F1") + "s";
-    }
-
-    public void ShowGameOverScreen()
-    {
-        //show elements
-        gameOverCanvasGroup.alpha = 1;
-        gameOverCanvasGroup.interactable = true;
-        gameOverCanvasGroup.blocksRaycasts = true;
-        //panelGameOver.SetActive(true);
-    }
-
-    public void ShowVictoryScreen()
-    {
-        //show elements
-        victoryCanvasGroup.alpha = 1;
-        victoryCanvasGroup.interactable = true;
-        victoryCanvasGroup.blocksRaycasts = true;
-
-        //panelVictory.SetActive(true);
-    }
-
-    private void OnPlayAgainClicked()
-    {
-        SceneManager.LoadScene(1);
-        Time.timeScale = 1;
-    }
-    private void OnExitGameClicked()
-    {
-        SceneManager.LoadScene(0);
-    }
-
-    private void OnDestroy()
-    {
-        gameOverPlayAgainButton.onClick.RemoveAllListeners();
-        gameOverMainMenuButton.onClick.RemoveAllListeners();
-        victoryPlayAgainButton.onClick.RemoveAllListeners();
-        victoryMainMenuButton.onClick.RemoveAllListeners();
-    }
+    ////    //panelVictory.SetActive(true);
+    ////}
+    ////private void OnPlayAgainClicked()
+    ////{
+    ////    SceneManager.LoadScene(1);
+    ////    Time.timeScale = 1;
+    ////}
+    ////private void OnExitGameClicked()
+    ////{
+    ////    SceneManager.LoadScene(0);
+    ////}
 }

@@ -6,9 +6,8 @@ public class EnemyController : MonoBehaviour
     [Header("Referencias")]
     [SerializeField] private Rigidbody2D rb2D;
     [SerializeField] private Animator animator;
-
-    [SerializeField] private GameConfigSo enemyData;
-    private HealthSystem healthSystem;
+    [SerializeField] private EnemyDataSo enemyData;
+    [SerializeField] private HealthSystem healthSystem;
     [SerializeField] private GameObject deathEffectPrefab;
 
     [Header("Movement")]
@@ -33,6 +32,7 @@ public class EnemyController : MonoBehaviour
             rb2D.bodyType = RigidbodyType2D.Dynamic;
         }
         healthSystem = GetComponent<HealthSystem>();
+        //enemyData.maxLife = healthSystem.maxLife;
         healthSystem.onDie += HealthSystem_onDie;
         if (sfxSource == null)
         {

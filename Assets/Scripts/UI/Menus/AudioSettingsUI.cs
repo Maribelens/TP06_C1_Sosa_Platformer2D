@@ -13,11 +13,11 @@ public class AudioSettingsUI : MonoBehaviour
     [SerializeField] private Slider sfxSlider;
     [SerializeField] private Slider uiSlider;
 
-    //[SerializeField] private GameManager gameManager;
+    //[SerializeField] private GameManager instance;
 
     private void Awake()
     {
-        //gameManager = GameObject.Find("MusicGameplay").GetComponent<AudioSource>();
+        //instance = GameObject.Find("MusicGameplay").GetComponent<AudioSource>();
 
         masterSlider.onValueChanged.AddListener(OnMasterVolumeChanged);
         musicSlider.onValueChanged.AddListener(OnMusicVolumeChanged);

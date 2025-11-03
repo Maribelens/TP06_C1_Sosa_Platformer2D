@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class HealthSystem : MonoBehaviour
 {
-    //[SerializeField] private PlayerDataSo playerData;
 
     public event Action<int, int> onLifeUpdated; // <currentLife, maxLife>
     public event Action onInvulnerableStart;
@@ -16,18 +15,16 @@ public class HealthSystem : MonoBehaviour
     [SerializeField] private AudioSource sfxSource;
 
     public int maxLife = 100;
-    private int life = 100;
+    private int life;
     public float invulnerableTimeLeft = 0f;
     public bool isInvulnerable = false;
 
-    [SerializeField] private GameManager gameManager;
+    //[SerializeField] private GameManager instance;
 
 
     private void Awake()
     {
         life = maxLife;
-        //playerData.maxLife = life;
-        //life = maxLife;
         if (sfxSource == null)
         {
             sfxSource = GetComponent<AudioSource>();
@@ -38,11 +35,6 @@ public class HealthSystem : MonoBehaviour
     {
         onLifeUpdated?.Invoke(life, maxLife);
     }
-
-    //private void Update()
-    //{
-    //    PowerUpTimer();
-    //}
 
     public void StartInvulnerability(float duration)
     {
@@ -69,20 +61,6 @@ public class HealthSystem : MonoBehaviour
         onInvulnerableEnd?.Invoke();
 
     }
-
-    //public void PowerUpTimer()
-    //{
-    //    if (isInvulnerable)
-    //    {
-    //        invulnerableTimeLeft -= Time.deltaTime;
-    //        if (invulnerableTimeLeft <= 0f)
-    //        {
-    //            isInvulnerable = false;
-    //            onInvulnerableEnd?.Invoke();
-    //            //Debug.Log("Protección terminada");
-    //        }
-    //    }
-    //}
 
     public void DoDamage(int damage)
     {
@@ -111,14 +89,14 @@ public class HealthSystem : MonoBehaviour
         Debug.Log("DoDamage", gameObject);
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            gameManager.ActivateProtection();
-            onDie?.Invoke();
-        }
-    }
+    //private void OnTriggerEnter2D(Collider2D other)
+    //{
+    //    if (other.CompareTag("Player"))
+    //    {
+    //        instance.ActivateProtection();
+    //        onDie?.Invoke();
+    //    }
+    //}
 
     public void Heal(int plus)
     {

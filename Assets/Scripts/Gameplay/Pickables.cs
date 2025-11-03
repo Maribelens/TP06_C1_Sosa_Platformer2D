@@ -15,8 +15,8 @@ public class Pickables : MonoBehaviour
 
     //private void Awake()
     //{
-    //    if (gameManager == null)
-    //        gameManager = GetComponent<GameManager>();
+    //    if (instance == null)
+    //        instance = GetComponent<GameManager>();
 
     //}
 
@@ -45,19 +45,19 @@ public class Pickables : MonoBehaviour
                     break;
 
                 case PickableType.Diamond:
-                    gameManager.AddGems(1);
+                    gameManager.AddDiamonds(1);
                     break;
                 case PickableType.Health:
-                    //gameManager.AddHealth();
+                    //instance.AddHealth();
                     health.Heal(20);
                     break;
                 case PickableType.Damage:
-                    //gameManager.ReduceHealth();
+                    //instance.ReduceHealth();
                     health.DoDamage(20);
                     break;
                 case PickableType.Protection:
                     gameManager.ActivateProtection();
-                    //health.StartInvulnerability(7f);
+                    //target.StartInvulnerability(7f);
                     break;
             }
             Debug.Log("Player recogio un objeto");

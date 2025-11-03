@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 public class PauseUI : MonoBehaviour
 {
     [Header("Panels")]
-    [SerializeField] private GameObject panelMainPause;
-    [SerializeField] private GameObject panelSettings;
+    [SerializeField] private CanvasGroup panelMainPause;
+    [SerializeField] private CanvasGroup panelSettings;
 
     [Header("Buttons")]
     [SerializeField] private Button btnPlay;
@@ -18,12 +18,10 @@ public class PauseUI : MonoBehaviour
 
     private void Awake()
     {
-        btnPlay.onClick.AddListener(OnPlayClicked);
-        btnOptions.onClick.AddListener(OnOptionsClicked);
-        btnExit.onClick.AddListener(OnExitClicked);
-        btnSettingsBack.onClick.AddListener(OnSettingsBackClicked);
+        AddButtonsListeners();
+        SetStateCanvasGroup(panelMainPause, false);
+        SetStateCanvasGroup(panelSettings, false);
     }
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.P))
@@ -32,10 +30,19 @@ public class PauseUI : MonoBehaviour
         }
     }
 
+    private void AddButtonsListeners()
+    {
+        btnPlay.onClick.AddListener(OnPlayClicked);
+        btnOptions.onClick.AddListener(OnOptionsClicked);
+        btnExit.onClick.AddListener(OnExitClicked);
+        btnSettingsBack.onClick.AddListener(OnSettingsBackClicked);
+    }
+
     private void TogglePause()
     {
         isPause = !isPause;
-        panelMainPause.SetActive(isPause);
+        SetStateCanvasGroup(panelMainPause, isPause);
+        //panelMainPause.SetActive(isPause);
         if (isPause)
         {
             Time.timeScale = 0f;
@@ -46,7 +53,6 @@ public class PauseUI : MonoBehaviour
         }
     }
 
-
     public void OnPlayClicked()
     {
         TogglePause();
@@ -54,7 +60,8 @@ public class PauseUI : MonoBehaviour
 
     private void OnOptionsClicked()
     {
-        panelSettings.SetActive(true);
+        SetStateCanvasGroup(panelSettings, true);
+        //panelSettings.SetActive(true);
     }
     private void OnExitClicked()
     {
@@ -71,10 +78,23 @@ public class PauseUI : MonoBehaviour
 
     private void OnSettingsBackClicked()
     {
-        panelSettings.SetActive(false);
+        SetStateCanvasGroup(panelSettings, false);
+        //panelSettings.SetActive(false);
+    }
+
+    private void SetStateCanvasGroup(CanvasGroup canvasGroup, bool state)
+    {
+        canvasGroup.alpha = state ? 1 : 0;
+        canvasGroup.interactable = state;
+        canvasGroup.blocksRaycasts = state;
     }
 
     private void OnDestroy()
+    {
+        RemoveButtonsListeners();    
+    }
+
+    private void RemoveButtonsListeners()
     {
         btnPlay.onClick.RemoveAllListeners();
         btnOptions.onClick.RemoveAllListeners();

@@ -2,12 +2,13 @@ using UnityEngine;
 
 public class DeathZone : MonoBehaviour
 {
-    [SerializeField] private GameManager gmManager;
+    [SerializeField] private GameManager gameManager;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            gmManager.PlayerDefeated();
+            gameManager.SetGameState(GameManager.GameState.GameOver);
+            //gmManager.OnStateChanged += HandleChange;
         }
     }
 

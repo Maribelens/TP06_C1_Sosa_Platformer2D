@@ -15,7 +15,7 @@ public class GameOverUI : MonoBehaviour
         {
             Debug.LogError("Faltan referencias de paneles en GameOverUI.");
         }
-        //gameOverCanvasGroup.GetComponent<CanvasGroup>();
+        //gameoverPanel.GetComponent<CanvasGroup>();
         canvasGroup.alpha = 0;
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
