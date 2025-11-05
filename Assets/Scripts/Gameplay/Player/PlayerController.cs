@@ -118,11 +118,11 @@ public class PlayerController : MonoBehaviour
         float moveInput = 0f;
         if (!isGrounded && !canMoveDuringJump) { return; }
 
-        if (Input.GetKey(playerData.keyCodeLeft))
+        if (Input.GetKey(playerData.keyCodeLeft) || Input.GetKey(playerData.keyCodeLeftAlt))
         {
             moveInput = -1f;
         }
-        else if (Input.GetKey(playerData.keyCodeRight))
+        else if (Input.GetKey(playerData.keyCodeRight) || Input.GetKey(playerData.keyCodeRightAlt))
         {
             moveInput = 1f;
         }

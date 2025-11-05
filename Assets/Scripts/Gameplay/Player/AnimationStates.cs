@@ -30,7 +30,7 @@ public class AnimationStates : MonoBehaviour
     }
     private void Update()
     {
-        bool isMoving = Input.GetKey(playerData.keyCodeRight) || Input.GetKey(playerData.keyCodeLeft);
+        bool isMoving = Input.GetKey(playerData.keyCodeRight) || Input.GetKey(playerData.keyCodeLeft) || Input.GetKey(playerData.keyCodeLeftAlt) || Input.GetKey(playerData.keyCodeRightAlt);
         bool isJumping = Input.GetKey(playerData.keyCodeJump);
 
         PlayerState newState = currentState;
