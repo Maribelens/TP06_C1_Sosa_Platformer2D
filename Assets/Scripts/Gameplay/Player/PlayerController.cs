@@ -82,6 +82,7 @@ public class PlayerController : MonoBehaviour
 
         Debug.Log($"Grounded: {isGrounded}, Jumps: {jumpsRemaining}");
 
+        
 
         if (Input.GetMouseButtonDown(0))
         {

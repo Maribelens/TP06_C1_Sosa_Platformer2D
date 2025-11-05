@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void SetGameState(GameState newState)
-    {   
+    {
         if (currentState == newState) return;
         currentState = newState;
         Debug.Log("Nuevo estado: " + currentState);
@@ -84,6 +84,7 @@ public class GameManager : MonoBehaviour
         }
 
     }
+    //resetear variables
 
     private void PlayMusic(AudioClip clip)
     {
