@@ -1,70 +1,82 @@
 using UnityEngine;
 
-public class AnimationStates : MonoBehaviour
-{
-    [SerializeField] private Animator animator;
-    [SerializeField] private PlayerDataSo playerData;
+//public class AnimationStates : MonoBehaviour
+//{
+//[SerializeField] private Animator animator;
+//[SerializeField] private PlayerDataSo playerData;
 
-    //private PlayerController player;
-    //private EnemyController enemy;
+////private PlayerController player;
+////private EnemyController enemy;
 
-    private static readonly int State = Animator.StringToHash("State");
-    enum PlayerState
+//private static readonly int State = Animator.StringToHash("State");
+//enum PlayerState
+//{
+//    Idle = 1,
+//    Walk = 2,
+//    Jump = 3,
+//    Hurt = 4,
+//};
+
+    public enum AnimationStates
     {
-        Idle = 1,
-        Walk = 2,
-        Jump = 3,
+        None = -1,
+        Idle = 0,
+        Walk = 1,
+        Jump = 2,
+        Attack = 3,
+        //Dash = 4,
         Hurt = 4,
+        Death = 5
     };
 
-    [SerializeField] private PlayerState currentState = PlayerState.Idle;
+//[SerializeField] private PlayerState currentState = PlayerState.Idle;
 
-    private void Awake()
-    {
-        animator = GetComponent<Animator>();
-    }
-    private void Start()
-    {
-        UpdateAnimatorState(currentState);
+//private void Awake()
+//{
+//    animator = GetComponent<Animator>();
+//}
+//private void Start()
+//{
+//    UpdateAnimatorState(currentState);
 
-    }
-    private void Update()
-    {
-        bool isMoving = Input.GetKey(playerData.keyCodeRight) || Input.GetKey(playerData.keyCodeLeft) || Input.GetKey(playerData.keyCodeLeftAlt) || Input.GetKey(playerData.keyCodeRightAlt);
-        bool isJumping = Input.GetKey(playerData.keyCodeJump);
+//}
+//private void Update()
+//{
+//    bool isMoving = Input.GetKey(playerData.keyCodeRight) || Input.GetKey(playerData.keyCodeLeft) || Input.GetKey(playerData.keyCodeLeftAlt) || Input.GetKey(playerData.keyCodeRightAlt);
+//    bool isJumping = Input.GetKey(playerData.keyCodeJump);
 
-        PlayerState newState = currentState;
+//    PlayerState newState = currentState;
 
-        if (isJumping)
-        {
-            newState = PlayerState.Jump;
-        }
-        else if (isMoving)
-        {
-            newState = PlayerState.Walk;
-        }
-        else
-        {
-            newState = PlayerState.Idle;
-        }
+//    if (isJumping)
+//    {
+//        newState = PlayerState.Jump;
+//    }
+//    else if (isMoving)
+//    {
+//        newState = PlayerState.Walk;
+//    }
+//    else
+//    {
+//        newState = PlayerState.Idle;
+//    }
 
-        if(newState != currentState)
-        {
-            currentState = newState;
-            UpdateAnimatorState(currentState);
-        }
+//    if(newState != currentState)
+//    {
+//        currentState = newState;
+//        UpdateAnimatorState(currentState);
+//    }
 
-        //CancelInvoke(nameof(ResetToIdle));
-    }
+//    //CancelInvoke(nameof(ResetToIdle));
+//}
 
-    public void ResetToIdle()
-    {
-        currentState = PlayerState.Idle;
-        UpdateAnimatorState(currentState);
-    }
+//public void ResetToIdle()
+//{
+//    currentState = PlayerState.Idle;
+//    UpdateAnimatorState(currentState);
+//}
 
-    private void UpdateAnimatorState(PlayerState state)
-    {
-        animator.SetInteger(State, (int)state);
-    }
-}
+//private void UpdateAnimatorState(PlayerState state)
+//{
+//    animator.SetInteger(State, (int)state);
+//}
+//}

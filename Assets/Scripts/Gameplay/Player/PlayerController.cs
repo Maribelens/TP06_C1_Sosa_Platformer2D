@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -8,9 +9,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private HealthSystem healthSystem;
     [SerializeField] private GameManager gameManager;
 
-    [Header("Refernces")]
-    [SerializeField] private Rigidbody2D rigidBody;
-    [SerializeField] private Animator animator;
+    private Rigidbody2D rigidBody;
+    private Animator animator;
+
+    //private bool isJumping = false;
+    //private bool isAttacking = false;
+
+    [SerializeField] private LayerMask layerMaskGround;
+
+    private List<State> states = new List<State>();
+    [SerializeField] private State currentState;
+    [SerializeField] private State previousState;
 
     [Header("Jump")]
     [SerializeField] private Transform groundController;
@@ -19,7 +28,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool isGrounded;
     [SerializeField] private bool wasGrounded;
     [SerializeField] private bool canMoveDuringJump;
-    [SerializeField] private int maxJumps = 2;
+    //[SerializeField] private int maxJumps = 2;
     private int jumpsRemaining;
     private bool jumpInput;
 
@@ -40,69 +49,113 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        if (rigidBody == null)
-        {
-            rigidBody = GetComponent<Rigidbody2D>();
-        }
-        if (animator == null)
-        {
-            animator = GetComponent<Animator>();
-        }
-        if (sfxSource == null)
-        {
-            sfxSource = GetComponent<AudioSource>();
-        }
-        healthSystem = GetComponent<HealthSystem>();
-        healthSystem.onDie += HealthSystem_onDie;
+        rigidBody = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        //if (sfxSource == null)
+        //{
+        //    sfxSource = GetComponent<AudioSource>();
+        //}
+        //healthSystem = GetComponent<HealthSystem>();
+        //healthSystem.onDie += HealthSystem_onDie;
     }
     private void Start()
     {
-        jumpsRemaining = maxJumps;
-        Debug.Log($"Velocidad del jugador: {playerData.speed}");     
+        states.Add(new StateIdle(this));
+        states.Add(new StateWalk(this));
+        states.Add(new StateJump(this));
+
+        SwapStateTo(AnimationStates.Idle);
+        //jumpsRemaining = maxJumps;
+        //Debug.Log($"Velocidad del jugador: {playerData.speed}");     
     }
     private void Update()
     {
-        if (Input.GetKeyDown(playerData.keyCodeJump))
-        {
-            jumpInput = true;
-        }
-        bool currentlyGrounded = Physics2D.OverlapBox(groundController.position, boxDimensions, 0f, jumpLayers);
-
-        if(!wasGrounded && currentlyGrounded)
-        {
-            OnLand();
-        }
-        isGrounded = currentlyGrounded;
-        wasGrounded = currentlyGrounded;
-
-        if (isGrounded)
-        {
-            jumpsRemaining = maxJumps - 1;
-        }
-
-        Debug.Log($"Grounded: {isGrounded}, Jumps: {jumpsRemaining}");
-
-        
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            Fire();
-        }
+        currentState.Update();
     }
-    private void OnLand()
+        //if (Input.GetKeyDown(playerData.keyCodeJump))
+        //{
+        //    jumpInput = true;
+        //}
+        //bool currentlyGrounded = Physics2D.OverlapBox(groundController.position, boxDimensions, 0f, jumpLayers);
+
+        //if (!wasGrounded && currentlyGrounded)
+        //{
+        //    OnLand();
+        //}
+        //isGrounded = currentlyGrounded;
+        //wasGrounded = currentlyGrounded;
+
+        //if (isGrounded)
+        //{
+        //    jumpsRemaining = maxJumps - 1;
+        //}
+
+        //Debug.Log($"Grounded: {isGrounded}, Jumps: {jumpsRemaining}");
+
+
+
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    Fire();
+        //}
+
+    public void SwapStateTo(AnimationStates nextState)
     {
-        if(landSFX != null && sfxSource != null)
+        foreach (State state in states)
         {
-            sfxSource.clip = landSFX;
-            sfxSource.Play();
+            if (state.state == nextState)
+            {               
+                    currentState?.OnExit();
+
+                    currentState = state;
+                    currentState.OnEnter();
+                    break;
+                
+            }
         }
     }
-    private void FixedUpdate()
+
+    public void ChangeAnimatorState(int state)
     {
-        Movement();
-        TryJump();
-        jumpInput = false;
+        animator.SetInteger("State", state);
     }
+
+    public bool IsGroundCollision()
+    {
+        float radius = 0.35f;
+        float distanceOffset = 0.35f;
+
+        Vector3 offset = -transform.up * distanceOffset;
+        Vector3 center = transform.position + offset;
+
+        RaycastHit2D[] hits = Physics2D.CircleCastAll(center, radius, Vector2.down, 0.0f, layerMaskGround);
+
+        foreach (RaycastHit2D hit in hits)
+        {
+            if (hit.transform != transform)
+            {
+                //Debug.Log($"Hit: {hit.transform.gameObject.name}");
+                return true;
+            }    
+        }
+
+        return false;
+    }
+
+    //private void OnLand()
+    //{
+    //    if(landSFX != null && sfxSource != null)
+    //    {
+    //        sfxSource.clip = landSFX;
+    //        sfxSource.Play();
+    //    }
+    //}
+    //private void FixedUpdate()
+    //{
+    //    Movement();
+    //    TryJump();
+    //    jumpInput = false;
+    //}
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -113,25 +166,34 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Movement()
+    public void Movement(Vector3 direction, float moveinput)
     {
-        float moveInput = 0f;
-        if (!isGrounded && !canMoveDuringJump) { return; }
+        if (!IsGroundCollision() && !canMoveDuringJump) { return; }
+        rigidBody.AddForce(direction * playerData.speed * Time.deltaTime, ForceMode2D.Force);
 
-        if (Input.GetKey(playerData.keyCodeLeft) || Input.GetKey(playerData.keyCodeLeftAlt))
-        {
-            moveInput = -1f;
-        }
-        else if (Input.GetKey(playerData.keyCodeRight) || Input.GetKey(playerData.keyCodeRightAlt))
-        {
-            moveInput = 1f;
-        }
-        if ((moveInput > 0 && !LookingRight()) || (moveInput < 0 && LookingRight()))
+        if ((GetVelocityX() > 0 && !LookingRight()) || (GetVelocityX() < 0 && LookingRight()))
         {
             TurnAround();
         }
-        rigidBody.velocity = new Vector2(moveInput * playerData.speed, rigidBody.velocity.y);
     }
+
+    //float moveInput = 0f;
+
+
+    //if (Input.GetKey(playerData.keyCodeLeft) || Input.GetKey(playerData.keyCodeLeftAlt))
+    //{
+    //    moveInput = -1f;
+    //}
+    //else if (Input.GetKey(playerData.keyCodeRight) || Input.GetKey(playerData.keyCodeRightAlt))
+    //{
+    //    moveInput = 1f;
+    //}
+    //if ((moveInput > 0 && !LookingRight()) || (moveInput < 0 && LookingRight()))
+    //{
+    //    TurnAround();
+    //}
+    //rigidBody.velocity = new Vector2(moveInput * playerData.speed, rigidBody.velocity.y);
+
 
     private void TurnAround()
     {
@@ -145,30 +207,46 @@ public class PlayerController : MonoBehaviour
         return transform.localScale.x == 1;
     }
 
-    private void TryJump()
+    public float GetVelocityX()
     {
-        if (!jumpInput) { return; }
-        //if (!isGrounded) { return; }
-        if(jumpsRemaining <= 0) { return; }
-        Jump();
-        //jumpsRemaining = Mathf.Max(0, jumpsRemaining - 1);
-
+        return rigidBody.velocityX;
     }
 
-    private void Jump()
+    //if (Input.GetKey(playerData.keyCodeLeft))
+    //{
+    //    moveInput = -1f;
+    //}
+    //else if (Input.GetKey(playerData.keyCodeRight))
+    //{
+    //    moveInput = 1f;
+    //}
+    //private void TryJump()
+    //{
+    //    if (!jumpInput) { return; }
+    //    //if (!isGrounded) { return; }
+    //    if(jumpsRemaining <= 0) { return; }
+    //    Jump();
+    //    //jumpsRemaining = Mathf.Max(0, jumpsRemaining - 1);
+
+    //}
+
+    public void Jump()
     {
-        jumpInput = false;
-        rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0f);
+        rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0);
         rigidBody.AddForce(Vector2.up * playerData.jumpForce, ForceMode2D.Impulse);
-
-        jumpsRemaining--;
-
-        if(jumpSFX != null && sfxSource != null)
-        {
-            sfxSource.clip = jumpSFX;
-            sfxSource.Play();
-        }
     }
+
+        //jumpInput = false;
+        //rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0f);
+        //rigidBody.AddForce(Vector2.up * playerData.jumpForce, ForceMode2D.Impulse);
+
+        //jumpsRemaining--;
+
+        //if(jumpSFX != null && sfxSource != null)
+        //{
+        //    sfxSource.clip = jumpSFX;
+        //    sfxSource.Play();
+        //}
 
     private void OnDrawGizmos()
     {

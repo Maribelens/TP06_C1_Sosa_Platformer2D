@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 1321391188912713133}
   - component: {fileID: 3072101803552094358}
   - component: {fileID: 7840093228406196017}
-  - component: {fileID: 1540475224910733244}
   - component: {fileID: 2742577430018784539}
   m_Layer: 3
   m_Name: Player
@@ -111,7 +110,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: 272d73170e9ac2f45ba9695e971729cd, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -132,7 +131,7 @@ BoxCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 272d73170e9ac2f45ba9695e971729cd, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -183,23 +182,25 @@ MonoBehaviour:
   playerData: {fileID: 11400000, guid: 63f05e520040ea745abc4dd9a14429c1, type: 2}
   healthSystem: {fileID: 0}
   gameManager: {fileID: 0}
-  rigidBody: {fileID: 0}
-  animator: {fileID: 0}
-  groundController: {fileID: 7074532156309134840}
-  boxDimensions: {x: 0.7, y: 0.3}
-  jumpLayers:
+  layerMaskGround:
     serializedVersion: 2
     m_Bits: 64
+  currentState: {fileID: 0}
+  previousState: {fileID: 0}
+  groundController: {fileID: 7074532156309134840}
+  boxDimensions: {x: 0, y: 0}
+  jumpLayers:
+    serializedVersion: 2
+    m_Bits: 0
   isGrounded: 0
   wasGrounded: 0
   canMoveDuringJump: 1
-  maxJumps: 2
   firePoint: {fileID: 8250217614113056543}
   deathEffectPrefab: {fileID: 2383438687052634223, guid: 72aca1931845fb942a17894e708243eb, type: 3}
   damage: 20
-  jumpSFX: {fileID: 8300000, guid: fd2b8688ffe59f64e91f0a3c26c98818, type: 3}
-  throwSFX: {fileID: 8300000, guid: 711b796b54da0ac4b94843cdc58bfded, type: 3}
-  landSFX: {fileID: 8300000, guid: 5a2ca4800b00e3b40b66de5f7087c113, type: 3}
+  jumpSFX: {fileID: 0}
+  throwSFX: {fileID: 0}
+  landSFX: {fileID: 0}
   sfxSource: {fileID: 0}
 --- !u!114 &3072101803552094358
 MonoBehaviour:
@@ -240,21 +241,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1540475224910733244
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1974851321070280444}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8743ae1d4ea4ca94a8328e74bc958984, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  playerData: {fileID: 11400000, guid: 63f05e520040ea745abc4dd9a14429c1, type: 2}
-  currentState: 1
 --- !u!82 &2742577430018784539
 AudioSource:
   m_ObjectHideFlags: 0

@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keyCodeJump: 32
   keyCodeLeft: 276
+  keyCodeLeftAlt: 97
   keyCodeRight: 275
+  keyCodeRightAlt: 100
   maxLife: 100
-  speed: 5
+  speed: 500
   jumpForce: 6
-  bulletPrefab: {fileID: 8416296037109472692, guid: 1b654677bbc5fb74abe149cf4b80b542, type: 3}
+  bulletPrefab: {fileID: 0}

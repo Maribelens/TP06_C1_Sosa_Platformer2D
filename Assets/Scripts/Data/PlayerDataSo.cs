@@ -12,7 +12,7 @@ public class PlayerDataSo : ScriptableObject
 
     [Header("PlayerSettings")]
     public int maxLife = 100;
-    public float speed = 5f;
+    public float speed = 1000f;
     public float jumpForce = 6f;
 
     [Header("Bullet")]
