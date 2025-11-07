@@ -18,6 +18,6 @@ MonoBehaviour:
   keyCodeRight: 275
   keyCodeRightAlt: 100
   maxLife: 100
-  speed: 500
+  speed: 300
   jumpForce: 6
-  bulletPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 8416296037109472692, guid: 1b654677bbc5fb74abe149cf4b80b542, type: 3}

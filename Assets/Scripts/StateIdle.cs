@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class StateIdle : State
 {
+    PlayerAudio playerAudio;
     public StateIdle (PlayerController playerController)
     {
         this.playerController = playerController;
@@ -19,7 +20,7 @@ public class StateIdle : State
         // Conexiones de Salida
         if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
             playerController.SwapStateTo(AnimationStates.Walk);
-        else if (Input.GetKeyDown(KeyCode.LeftControl))
+        else if (Input.GetMouseButton(0))
             playerController.SwapStateTo(AnimationStates.Attack);
         else if (Input.GetKeyDown(KeyCode.Space))
             playerController.SwapStateTo(AnimationStates.Jump);

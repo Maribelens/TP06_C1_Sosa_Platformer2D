@@ -39440,10 +39440,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1457791876}
     m_Modifications:
-    - target: {fileID: 1199533540323820780, guid: 1324042d5d98b024682ef6f19aa795ef, type: 3}
-      propertyPath: walkClipSFX
-      value: 
-      objectReference: {fileID: 8300000, guid: 5a2ca4800b00e3b40b66de5f7087c113, type: 3}
     - target: {fileID: 1321391188912713133, guid: 1324042d5d98b024682ef6f19aa795ef, type: 3}
       propertyPath: gameManager
       value: 

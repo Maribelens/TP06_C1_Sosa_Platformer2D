@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class StateWalk : State
 {
+    PlayerAudio playerAudio;
     public StateWalk(PlayerController playerController)
     {
         this.playerController = playerController;
@@ -17,16 +18,16 @@ public class StateWalk : State
     public override void Update()
     {
         // Conexiones de Salida
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+        if (Input.GetMouseButton(0))
             playerController.SwapStateTo(AnimationStates.Attack);
         else if (Input.GetKeyDown(KeyCode.Space))
             playerController.SwapStateTo(AnimationStates.Jump);
 
         // ---------- UPDATE ----------
         else if (Input.GetKey(KeyCode.A))
-            playerController.Movement(Vector3.left * 0.75f, -1);
+            playerController.Movement(Vector3.left, -1);
         else if (Input.GetKey(KeyCode.D))
-            playerController.Movement(Vector3.right * 0.75f, 1);
+            playerController.Movement(Vector3.right, 1);
         else
             playerController.SwapStateTo(AnimationStates.Idle);
     }

@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Scripts")]
     [SerializeField] private PlayerDataSo playerData;
+    [SerializeField] private PlayerAudio playerAudio;
     [SerializeField] private HealthSystem healthSystem;
     [SerializeField] private GameManager gameManager;
 
@@ -24,13 +25,13 @@ public class PlayerController : MonoBehaviour
     [Header("Jump")]
     [SerializeField] private Transform groundController;
     [SerializeField] private Vector2 boxDimensions;
-    [SerializeField] private LayerMask jumpLayers;
-    [HideInInspector] public bool isGrounded;
-    [SerializeField] private bool wasGrounded;
+    //[SerializeField] private LayerMask jumpLayers;
+    //[HideInInspector] public bool isGrounded;
+    //[SerializeField] private bool wasGrounded;
     [SerializeField] private bool canMoveDuringJump;
     //[SerializeField] private int maxJumps = 2;
-    private int jumpsRemaining;
-    private bool jumpInput;
+    //private int jumpsRemaining;
+    //private bool jumpInput;
 
     [Header("Fire")]
     [SerializeField] private Transform firePoint;
@@ -41,28 +42,21 @@ public class PlayerController : MonoBehaviour
     private float damageCooldown = 1f;
     private float lastDamageTime;
 
-    [Header("Audio")]
-    [SerializeField] private AudioClip jumpSFX;
-    [SerializeField] private AudioClip throwSFX;
-    [SerializeField] private AudioClip landSFX;
-    [SerializeField] private AudioSource sfxSource;
 
     private void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        //if (sfxSource == null)
-        //{
-        //    sfxSource = GetComponent<AudioSource>();
-        //}
-        //healthSystem = GetComponent<HealthSystem>();
-        //healthSystem.onDie += HealthSystem_onDie;
+        playerAudio = GetComponent<PlayerAudio>();
+        healthSystem = GetComponent<HealthSystem>();
+        healthSystem.onDie += HealthSystem_onDie;
     }
     private void Start()
     {
         states.Add(new StateIdle(this));
         states.Add(new StateWalk(this));
         states.Add(new StateJump(this));
+        states.Add(new StateAttack(this));
 
         SwapStateTo(AnimationStates.Idle);
         //jumpsRemaining = maxJumps;
@@ -123,10 +117,10 @@ public class PlayerController : MonoBehaviour
     public bool IsGroundCollision()
     {
         float radius = 0.35f;
-        float distanceOffset = 0.35f;
+        float distanceOffset = 0.5f;
 
         Vector3 offset = -transform.up * distanceOffset;
-        Vector3 center = transform.position + offset;
+        Vector2 center = transform.position + offset;
 
         RaycastHit2D[] hits = Physics2D.CircleCastAll(center, radius, Vector2.down, 0.0f, layerMaskGround);
 
@@ -170,6 +164,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!IsGroundCollision() && !canMoveDuringJump) { return; }
         rigidBody.AddForce(direction * playerData.speed * Time.deltaTime, ForceMode2D.Force);
+        playerAudio.PlayWalk();
 
         if ((GetVelocityX() > 0 && !LookingRight()) || (GetVelocityX() < 0 && LookingRight()))
         {
@@ -209,7 +204,7 @@ public class PlayerController : MonoBehaviour
 
     public float GetVelocityX()
     {
-        return rigidBody.velocityX;
+        return rigidBody.velocity.x;
     }
 
     //if (Input.GetKey(playerData.keyCodeLeft))
@@ -224,7 +219,6 @@ public class PlayerController : MonoBehaviour
     //{
     //    if (!jumpInput) { return; }
     //    //if (!isGrounded) { return; }
-    //    if(jumpsRemaining <= 0) { return; }
     //    Jump();
     //    //jumpsRemaining = Mathf.Max(0, jumpsRemaining - 1);
 
@@ -232,8 +226,14 @@ public class PlayerController : MonoBehaviour
 
     public void Jump()
     {
+        //if(jumpsRemaining <= 0) { return; }
         rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0);
         rigidBody.AddForce(Vector2.up * playerData.jumpForce, ForceMode2D.Impulse);
+        //jumpsRemaining = maxJumps - 1;
+        //if (isGrounded)
+        //{
+        //    jumpsRemaining = maxJumps - 1;
+        //}
     }
 
         //jumpInput = false;
@@ -254,7 +254,7 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawWireCube(groundController.position, boxDimensions);
     }
 
-    private void Fire()
+    public void Fire()
     {
         if (EventSystem.current.IsPointerOverGameObject()) // Para saber si le pego a un objeto de UI
             return;
@@ -265,13 +265,13 @@ public class PlayerController : MonoBehaviour
         bullet.gameObject.layer = LayerMask.NameToLayer("Player");
 
         Vector3 targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //targetPos.z = 0;
         //bullet.transform.LookAt(targetPos);
-        Vector3 direction = targetPos - firePoint.position;
+        Vector3 direction = (targetPos - firePoint.position).normalized;
 
         bullet.SetBullet(20, 30, direction);
 
-        sfxSource.clip = throwSFX;
-        sfxSource.Play();
+        //playerAudio.PlayThrow();
         //Vector3 direction = targetPos - firePoint.position;
         //angulos a calcular: jugador, mouse
     }
