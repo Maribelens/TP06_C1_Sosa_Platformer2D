@@ -3,6 +3,7 @@ using UnityEngine;
 public class StateWalk : State
 {
     PlayerAudio playerAudio;
+    HealthSystem healthSystem;
     public StateWalk(PlayerController playerController)
     {
         this.playerController = playerController;

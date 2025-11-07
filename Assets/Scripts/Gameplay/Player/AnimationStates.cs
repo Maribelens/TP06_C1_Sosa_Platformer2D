@@ -24,7 +24,6 @@ using UnityEngine;
         Walk = 1,
         Jump = 2,
         Attack = 3,
-        //Dash = 4,
         Hurt = 4,
         Death = 5
     };

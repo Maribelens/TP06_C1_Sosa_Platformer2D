@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class HealthSystem : MonoBehaviour
 {
+    private PlayerController playerController;
+    private State state;
 
     public event Action<int, int> onLifeUpdated; // <currentLife, maxLife>
     public event Action onInvulnerableStart;
     public event Action onInvulnerableEnd;
     public event Action<float> onInvulnerabilityTimerUpdate;
+    public event Action onTakeDamage;
     public event Action onDie;
 
-    [SerializeField] private AudioClip damageSFX;
-    [SerializeField] private AudioSource sfxSource;
+    //[SerializeField] private AudioClip damageSFX;
+    //[SerializeField] private AudioSource sfxSource;
 
     public int maxLife = 100;
     private int life;
@@ -25,10 +28,13 @@ public class HealthSystem : MonoBehaviour
     private void Awake()
     {
         life = maxLife;
-        if (sfxSource == null)
-        {
-            sfxSource = GetComponent<AudioSource>();
-        }
+        playerController = GetComponent<PlayerController>();
+        state = GetComponent<State>();
+        
+        //if (sfxSource == null)
+        //{
+        //    sfxSource = GetComponent<AudioSource>();
+        //}
     }
 
     private void Start()
@@ -73,8 +79,8 @@ public class HealthSystem : MonoBehaviour
         if (isInvulnerable) return;
 
         life -= damage;
-        sfxSource.clip = damageSFX;
-        sfxSource.Play();
+        //sfxSource.clip = damageSFX;
+        //sfxSource.Play();
 
         if (life <= 0)
         {
@@ -83,6 +89,7 @@ public class HealthSystem : MonoBehaviour
         }
         else
         {
+            onTakeDamage?.Invoke();
             onLifeUpdated?.Invoke(life, maxLife);
         }
 

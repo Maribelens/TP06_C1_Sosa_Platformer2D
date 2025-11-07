@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -47,16 +50,29 @@ public class PlayerController : MonoBehaviour
     {
         rigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+
         playerAudio = GetComponent<PlayerAudio>();
         healthSystem = GetComponent<HealthSystem>();
+
+        //healthSystem.onLifeUpdated += OnLifeUpdated;
         healthSystem.onDie += HealthSystem_onDie;
+        healthSystem.onTakeDamage += OnTakeDamage;
+        //healthSystem.onTakeDamage += OnTakeDamage;
+        //healthSystem.onLifeUpdated += CheckIfHurt;
     }
+
+    private void OnTakeDamage()
+    {
+        SwapStateTo(AnimationStates.Hurt);
+    }
+
     private void Start()
     {
         states.Add(new StateIdle(this));
         states.Add(new StateWalk(this));
         states.Add(new StateJump(this));
         states.Add(new StateAttack(this));
+        states.Add(new StateHurt(this));
 
         SwapStateTo(AnimationStates.Idle);
         //jumpsRemaining = maxJumps;
