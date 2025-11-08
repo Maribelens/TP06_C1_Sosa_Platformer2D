@@ -14,8 +14,8 @@ public class HealthSystem : MonoBehaviour
     public event Action onTakeDamage;
     public event Action onDie;
 
-    //[SerializeField] private AudioClip damageSFX;
-    //[SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioClip damageSFX;
+    [SerializeField] private AudioSource sfxSource;
 
     public int maxLife = 100;
     private int life;
@@ -30,11 +30,8 @@ public class HealthSystem : MonoBehaviour
         life = maxLife;
         playerController = GetComponent<PlayerController>();
         state = GetComponent<State>();
-        
-        //if (sfxSource == null)
-        //{
-        //    sfxSource = GetComponent<AudioSource>();
-        //}
+
+        sfxSource = GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -79,8 +76,8 @@ public class HealthSystem : MonoBehaviour
         if (isInvulnerable) return;
 
         life -= damage;
-        //sfxSource.clip = damageSFX;
-        //sfxSource.Play();
+        sfxSource.clip = damageSFX;
+        sfxSource.Play();
 
         if (life <= 0)
         {
