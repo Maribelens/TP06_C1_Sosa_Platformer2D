@@ -1,148 +1,102 @@
-using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.LowLevel;
-
 public class PlayerController : MonoBehaviour
 {
+    // --------------------- VARIABLES DE OTROS SCRIPTS ---------------------
     [Header("Scripts")]
-    [SerializeField] private PlayerDataSo playerData;
-    //[SerializeField] private PlayerAudio playerAudio;
-    [SerializeField] private HealthSystem healthSystem;
-    [SerializeField] private GameManager gameManager;
+    [SerializeField] private PlayerDataSo playerData;       //Contiene velocidad, fuerza de salto y prefab de bullet
+    [SerializeField] private HealthSystem healthSystem;     //sistema de vida, daño y muerte
+    [SerializeField] private GameManager gameManager;       //Administra estados del juego
 
+
+    // --------------------- COMPONENTES ---------------------
     private Rigidbody2D rigidBody;
-    private Animator animator;
-
-    //private bool isJumping = false;
-    //private bool isAttacking = false;
-
-    [SerializeField] private LayerMask layerMaskGround;
-
-    private List<State> states = new List<State>();
-    [SerializeField] private State currentState;
-    [SerializeField] private State previousState;
+    private Animator animator;     
 
     [Header("Jump")]
-    //[SerializeField] private Transform groundController;
-    //[SerializeField] private Vector2 boxDimensions;
-    //[SerializeField] private LayerMask jumpLayers;
-    //[HideInInspector] public bool isGrounded;
-    //[SerializeField] private bool wasGrounded;
-    [SerializeField] private bool canMoveDuringJump;
-    //[SerializeField] private int maxJumps = 2;
-    //private int jumpsRemaining;
-    //private bool jumpInput;
+    private bool canMoveDuringJump;     //control de movimiento de salto
+    [SerializeField] private LayerMask layerMaskGround;     // Para detección de colisiones con el suelo
 
     [Header("Fire")]
-    [SerializeField] private Transform firePoint;
+    [SerializeField] private Transform firePoint;   //punto de disparo
 
     [Header("Damage")]
-    [SerializeField] private GameObject deathEffectPrefab;
-    [SerializeField] private int damage = 20;
-    private float damageCooldown = 1f;
-    private float lastDamageTime;
+    [SerializeField] private GameObject deathEffectPrefab;      //instancia de efecto de muerte
+    [SerializeField] private int damage = 20;       //cantidad de daño recibido
+    private float damageCooldown = 1f;      //tiempo de no ser dañado
+    private float lastDamageTime;       //tiempo desde la ultima vez que recibio daño
 
     [Header("Audio")]
-    [SerializeField] private AudioSource audioSource;
-    [SerializeField] private AudioClip walkClipSFX;
-    [SerializeField] private AudioClip jumpClipSFX;
-    [SerializeField] private AudioClip throwClipSFX;
-    [SerializeField] private AudioClip landClipSFX;
-
-    private bool isWalking;
+    [SerializeField] private AudioSource audioSource;       //emisor sonoro del jugador        
+    [SerializeField] private AudioClip jumpClipSFX;         //asset de sonido de salto
+    [SerializeField] private AudioClip throwClipSFX;        //asset de sonido de lanzar
 
 
+    // --------------------- MÁQUINA DE ESTADOS ---------------------
+    private List<State> states = new List<State>(); // Lista de todos los estados posibles
+    [SerializeField] private State currentState;    //Estado actual
+    [SerializeField] private State previousState;   //Estado previo
+
+
+
+    // --------------------- MÉTODOS UNITY ---------------------
     private void Awake()
     {
+        // Obtener referencias a componentes
         rigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        //audioSource.GetComponent<AudioSource>();
-
-        //playerAudio = GetComponent<PlayerAudio>();
         healthSystem = GetComponent<HealthSystem>();
 
-        //healthSystem.onLifeUpdated += OnLifeUpdated;
         healthSystem.onDie += HealthSystem_onDie;
         healthSystem.onTakeDamage += OnTakeDamage;
-        //healthSystem.onTakeDamage += OnTakeDamage;
-        //healthSystem.onLifeUpdated += CheckIfHurt;
-    }
-
-    private void OnTakeDamage()
-    {
-        //audioSource.playOnAwake = false;
-
-        SwapStateTo(AnimationStates.Hurt);
     }
 
     private void Start()
     {
+        // Inicializar y agregar los estados a la lista
         states.Add(new StateIdle(this));
         states.Add(new StateWalk(this));
         states.Add(new StateJump(this));
         states.Add(new StateAttack(this));
         states.Add(new StateHurt(this));
 
-        SwapStateTo(AnimationStates.Idle);
-        //jumpsRemaining = maxJumps;
-        //Debug.Log($"Velocidad del jugador: {playerData.speed}");     
+        // Configurar el estado inicial
+        SwapStateTo(AnimationStates.Idle);    
     }
     private void Update()
     {
+        // Ejecutar la lógica del estado actual cada frame
         currentState.Update();
     }
-        //if (Input.GetKeyDown(playerData.keyCodeJump))
-        //{
-        //    jumpInput = true;
-        //}
-        //bool currentlyGrounded = Physics2D.OverlapBox(groundController.position, boxDimensions, 0f, jumpLayers);
 
-        //if (!wasGrounded && currentlyGrounded)
-        //{
-        //    OnLand();
-        //}
-        //isGrounded = currentlyGrounded;
-        //wasGrounded = currentlyGrounded;
-
-        //if (isGrounded)
-        //{
-        //    jumpsRemaining = maxJumps - 1;
-        //}
-
-        //Debug.Log($"Grounded: {isGrounded}, Jumps: {jumpsRemaining}");
-
-
-
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    Fire();
-        //}
-
+    // --------------------- GESTIÓN DE ESTADOS ---------------------
     public void SwapStateTo(AnimationStates nextState)
     {
+        // Cambiar el estado actual por otro
         foreach (State state in states)
         {
             if (state.state == nextState)
-            {               
-                    currentState?.OnExit();
+            {
+                currentState?.OnExit();     // Salida del estado actual
 
-                    currentState = state;
-                    currentState.OnEnter();
-                    break;
-                
+                currentState = state;
+                currentState.OnEnter();     //Entrada del nuevo estado
+                break;
+
             }
         }
     }
 
+    // Cambiar la animación mediante el Animator
     public void ChangeAnimatorState(int state)
     {
         animator.SetInteger("State", state);
     }
 
+    // --------------------- FUNCIONES DE MOVIMIENTO ---------------------
+
+    // Retorna true si el jugador está tocando el suelo, false si no
     public bool IsGroundCollision()
     {
         float radius = 0.35f;
@@ -157,76 +111,27 @@ public class PlayerController : MonoBehaviour
         {
             if (hit.transform != transform)
             {
-                //Debug.Log($"Hit: {hit.transform.gameObject.name}");
+                Debug.Log($"Hit: {hit.transform.gameObject.name}");
                 return true;
-            }    
+            }
         }
 
         return false;
     }
 
-    //private void OnLand()
-    //{
-    //    if(landSFX != null && sfxSource != null)
-    //    {
-    //        sfxSource.clip = landSFX;
-    //        sfxSource.Play();
-    //    }
-    //}
-    //private void FixedUpdate()
-    //{
-    //    Movement();
-    //    TryJump();
-    //    jumpInput = false;
-    //}
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.collider.CompareTag("Enemy") && Time.time > lastDamageTime + damageCooldown) // asegúrate de que el enemigo tenga el tag "Enemy"
-        {
-            healthSystem.DoDamage(damage);
-            lastDamageTime = Time.time;// le quita vida al jugador
-        }
-    }
-
+    // Aplica fuerza horizontal al jugador según input
+    // También invierte la escala si el jugador cambia de dirección
     public void Movement(Vector3 direction, float moveinput)
     {
         if (!IsGroundCollision() && !canMoveDuringJump) { return; }
         rigidBody.AddForce(direction * playerData.speed * Time.deltaTime, ForceMode2D.Force);
-        //playerAudio.PlayWalk();
 
         if ((GetVelocityX() > 0 && !LookingRight()) || (GetVelocityX() < 0 && LookingRight()))
         {
             TurnAround();
         }
-        //{
-        //    PlayLoop(walkClipSFX, true);
-        //    isWalking = true;
-        //}
-        //else
-        //{
-        //    StopLoop();
-        //    isWalking = false;
-        //}
     }
-
-    //float moveInput = 0f;
-
-
-    //if (Input.GetKey(playerData.keyCodeLeft) || Input.GetKey(playerData.keyCodeLeftAlt))
-    //{
-    //    moveInput = -1f;
-    //}
-    //else if (Input.GetKey(playerData.keyCodeRight) || Input.GetKey(playerData.keyCodeRightAlt))
-    //{
-    //    moveInput = 1f;
-    //}
-    //if ((moveInput > 0 && !LookingRight()) || (moveInput < 0 && LookingRight()))
-    //{
-    //    TurnAround();
-    //}
-    //rigidBody.velocity = new Vector2(moveInput * playerData.speed, rigidBody.velocity.y);
-
 
     private void TurnAround()
     {
@@ -245,58 +150,20 @@ public class PlayerController : MonoBehaviour
         return rigidBody.velocity.x;
     }
 
-    //if (Input.GetKey(playerData.keyCodeLeft))
-    //{
-    //    moveInput = -1f;
-    //}
-    //else if (Input.GetKey(playerData.keyCodeRight))
-    //{
-    //    moveInput = 1f;
-    //}
-    //private void TryJump()
-    //{
-    //    if (!jumpInput) { return; }
-    //    //if (!isGrounded) { return; }
-    //    Jump();
-    //    //jumpsRemaining = Mathf.Max(0, jumpsRemaining - 1);
-
-    //}
-
+    // Aplica impulso vertical al jugador y reproduce el sonido de salto
     public void Jump()
     {
-        //if(jumpsRemaining <= 0) { return; }
         rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0);
         rigidBody.AddForce(Vector2.up * playerData.jumpForce, ForceMode2D.Impulse);
         audioSource.clip = jumpClipSFX;
         audioSource.Play();
-        //jumpsRemaining = maxJumps - 1;
-        //if (isGrounded)
-        //{
-        //    jumpsRemaining = maxJumps - 1;
-        //}
     }
 
-        //jumpInput = false;
-        //rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0f);
-        //rigidBody.AddForce(Vector2.up * playerData.jumpForce, ForceMode2D.Impulse);
-
-        //jumpsRemaining--;
-
-        //if(jumpSFX != null && sfxSource != null)
-        //{
-        //    sfxSource.clip = jumpSFX;
-        //    sfxSource.Play();
-        //}
-
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.color = Color.yellow;
-    //    Gizmos.DrawWireCube(groundController.position, boxDimensions);
-    //}
-
+    // Instancia y dispara un bullet hacia la posición del mouse
+    // Evita disparar si el cursor está sobre un objeto UI
     public void Fire()
     {
-        if (EventSystem.current.IsPointerOverGameObject()) // Para saber si le pego a un objeto de UI
+        if (EventSystem.current.IsPointerOverGameObject())
             return;
 
         Bullet bullet = Instantiate(playerData.bulletPrefab);
@@ -305,21 +172,31 @@ public class PlayerController : MonoBehaviour
         bullet.gameObject.layer = LayerMask.NameToLayer("Player");
 
         Vector3 targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //targetPos.z = 0;
-        //bullet.transform.LookAt(targetPos);
         Vector3 direction = (targetPos - firePoint.position).normalized;
 
         bullet.SetBullet(20, 30, direction);
 
         audioSource.clip = throwClipSFX;
         audioSource.Play();
-        //playerAudio.PlayThrow();
     }
 
+    // --------------------- COLISIONES ---------------------
+    // Aplica daño al jugador al tocar un enemigo si el cooldown ya pasó
+    private void OnCollisionEnter2D(Collision2D collision)
+    { 
+        if (collision.collider.CompareTag("Enemy") && Time.time > lastDamageTime + damageCooldown)
+        {
+            healthSystem.DoDamage(damage);
+            lastDamageTime = Time.time;
+        }
+    }
+
+    // --------------------- MUERTE Y DAÑO ---------------------
+    // Se llama al morir: instancia efecto de muerte y notifica al GameManager
     private void HealthSystem_onDie()
     {
-        if (deathEffectPrefab != null)
-        {
+        if (deathEffectPrefab != null) 
+        { 
             GameObject effect = Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
             Destroy(effect, 2f);
         }
@@ -333,4 +210,9 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Murió el player");
     }
 
+    private void OnTakeDamage()
+    {
+        // Cambia el estado del jugador a "Hurt" al recibir daño
+        SwapStateTo(AnimationStates.Hurt);
+    }
 }
