@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.LowLevel;
 
 public class StateWalk : State
 {
@@ -25,10 +26,14 @@ public class StateWalk : State
             playerController.SwapStateTo(AnimationStates.Jump);
 
         // ---------- UPDATE ----------
-        else if (Input.GetKey(KeyCode.A))
-            playerController.Movement(Vector3.left, -1);
-        else if (Input.GetKey(KeyCode.D))
-            playerController.Movement(Vector3.right, 1);
+            else if (Input.GetKey(KeyCode.A))
+            {
+                playerController.Movement(Vector3.left, -1);
+            }
+            else if (Input.GetKey(KeyCode.D))
+            {
+                playerController.Movement(Vector3.right, 1);
+            }    
         else
             playerController.SwapStateTo(AnimationStates.Idle);
     }

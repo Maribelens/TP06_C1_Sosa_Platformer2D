@@ -4,12 +4,13 @@ using Unity.VisualScripting;
 using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.LowLevel;
 
 public class PlayerController : MonoBehaviour
 {
     [Header("Scripts")]
     [SerializeField] private PlayerDataSo playerData;
-    [SerializeField] private PlayerAudio playerAudio;
+    //[SerializeField] private PlayerAudio playerAudio;
     [SerializeField] private HealthSystem healthSystem;
     [SerializeField] private GameManager gameManager;
 
@@ -26,8 +27,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private State previousState;
 
     [Header("Jump")]
-    [SerializeField] private Transform groundController;
-    [SerializeField] private Vector2 boxDimensions;
+    //[SerializeField] private Transform groundController;
+    //[SerializeField] private Vector2 boxDimensions;
     //[SerializeField] private LayerMask jumpLayers;
     //[HideInInspector] public bool isGrounded;
     //[SerializeField] private bool wasGrounded;
@@ -45,13 +46,23 @@ public class PlayerController : MonoBehaviour
     private float damageCooldown = 1f;
     private float lastDamageTime;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip walkClipSFX;
+    [SerializeField] private AudioClip jumpClipSFX;
+    [SerializeField] private AudioClip throwClipSFX;
+    [SerializeField] private AudioClip landClipSFX;
+
+    private bool isWalking;
+
 
     private void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        //audioSource.GetComponent<AudioSource>();
 
-        playerAudio = GetComponent<PlayerAudio>();
+        //playerAudio = GetComponent<PlayerAudio>();
         healthSystem = GetComponent<HealthSystem>();
 
         //healthSystem.onLifeUpdated += OnLifeUpdated;
@@ -63,6 +74,8 @@ public class PlayerController : MonoBehaviour
 
     private void OnTakeDamage()
     {
+        //audioSource.playOnAwake = false;
+
         SwapStateTo(AnimationStates.Hurt);
     }
 
@@ -180,12 +193,21 @@ public class PlayerController : MonoBehaviour
     {
         if (!IsGroundCollision() && !canMoveDuringJump) { return; }
         rigidBody.AddForce(direction * playerData.speed * Time.deltaTime, ForceMode2D.Force);
-        playerAudio.PlayWalk();
+        //playerAudio.PlayWalk();
 
         if ((GetVelocityX() > 0 && !LookingRight()) || (GetVelocityX() < 0 && LookingRight()))
         {
             TurnAround();
         }
+        //{
+        //    PlayLoop(walkClipSFX, true);
+        //    isWalking = true;
+        //}
+        //else
+        //{
+        //    StopLoop();
+        //    isWalking = false;
+        //}
     }
 
     //float moveInput = 0f;
@@ -245,6 +267,8 @@ public class PlayerController : MonoBehaviour
         //if(jumpsRemaining <= 0) { return; }
         rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0);
         rigidBody.AddForce(Vector2.up * playerData.jumpForce, ForceMode2D.Impulse);
+        audioSource.clip = jumpClipSFX;
+        audioSource.Play();
         //jumpsRemaining = maxJumps - 1;
         //if (isGrounded)
         //{
@@ -264,11 +288,11 @@ public class PlayerController : MonoBehaviour
         //    sfxSource.Play();
         //}
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireCube(groundController.position, boxDimensions);
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.yellow;
+    //    Gizmos.DrawWireCube(groundController.position, boxDimensions);
+    //}
 
     public void Fire()
     {
@@ -287,9 +311,9 @@ public class PlayerController : MonoBehaviour
 
         bullet.SetBullet(20, 30, direction);
 
+        audioSource.clip = throwClipSFX;
+        audioSource.Play();
         //playerAudio.PlayThrow();
-        //Vector3 direction = targetPos - firePoint.position;
-        //angulos a calcular: jugador, mouse
     }
 
     private void HealthSystem_onDie()

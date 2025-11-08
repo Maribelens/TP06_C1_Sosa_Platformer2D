@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 3072101803552094358}
   - component: {fileID: 7840093228406196017}
   - component: {fileID: 2742577430018784539}
-  - component: {fileID: 3525878918060183698}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -181,7 +180,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerData: {fileID: 11400000, guid: 63f05e520040ea745abc4dd9a14429c1, type: 2}
-  playerAudio: {fileID: 0}
   healthSystem: {fileID: 0}
   gameManager: {fileID: 0}
   layerMaskGround:
@@ -189,17 +187,15 @@ MonoBehaviour:
     m_Bits: 64
   currentState: {fileID: 0}
   previousState: {fileID: 0}
-  groundController: {fileID: 7074532156309134840}
-  boxDimensions: {x: 0, y: 0}
-  jumpLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  isGrounded: 0
-  wasGrounded: 0
   canMoveDuringJump: 1
   firePoint: {fileID: 8250217614113056543}
   deathEffectPrefab: {fileID: 2383438687052634223, guid: 72aca1931845fb942a17894e708243eb, type: 3}
   damage: 20
+  audioSource: {fileID: 0}
+  walkClipSFX: {fileID: 8300000, guid: 5a2ca4800b00e3b40b66de5f7087c113, type: 3}
+  jumpClipSFX: {fileID: 8300000, guid: 07f429977da817340b248b545a32ab96, type: 3}
+  throwClipSFX: {fileID: 8300000, guid: 711b796b54da0ac4b94843cdc58bfded, type: 3}
+  landClipSFX: {fileID: 8300000, guid: 5a2ca4800b00e3b40b66de5f7087c113, type: 3}
 --- !u!114 &3072101803552094358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,8 +208,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b021b7a0c4a03b49a69d2868d8bb764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageSFX: {fileID: 8300000, guid: afbe2bc463a7dcd4daa38f4fdab68c16, type: 3}
-  sfxSource: {fileID: 0}
   maxLife: 100
   invulnerableTimeLeft: 0
   isInvulnerable: 0
@@ -336,22 +330,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &3525878918060183698
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1974851321070280444}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c46bc21732576b540bfae7f1018e13f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  walkClipSFX: {fileID: 8300000, guid: 5a2ca4800b00e3b40b66de5f7087c113, type: 3}
-  jumpClipSFX: {fileID: 8300000, guid: 07f429977da817340b248b545a32ab96, type: 3}
-  throwClipSFX: {fileID: 8300000, guid: 711b796b54da0ac4b94843cdc58bfded, type: 3}
-  landClipSFX: {fileID: 8300000, guid: 5a2ca4800b00e3b40b66de5f7087c113, type: 3}
 --- !u!1 &6829368071007099784
 GameObject:
   m_ObjectHideFlags: 0
