@@ -1,14 +1,26 @@
 using UnityEngine;
 
-public abstract class State : MonoBehaviour
+public abstract class State
 {
     public AnimationStates state { get; protected set; } = AnimationStates.None;
     protected PlayerController playerController;
+    protected PlayerDataSo playerData;
 
     public virtual void OnEnter()
     {
         Debug.Log($"OnEnter de {state}");
     }
+
+    //public virtual void ReadInput() 
+    //{
+    //    // Para entradas del jugador
+    //}
+
+    //public virtual void FixedUpdate() 
+    //{
+    //    // Para movimiento físico
+    //}
+
     public virtual void Update()
     {
         Debug.Log($"Update de {state}");

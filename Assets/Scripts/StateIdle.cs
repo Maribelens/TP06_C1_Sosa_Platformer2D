@@ -1,11 +1,12 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class StateIdle : State
 {
-    PlayerAudio playerAudio;
-    public StateIdle (PlayerController playerController)
+    public StateIdle(PlayerController playerController, PlayerDataSo playerDate)
     {
         this.playerController = playerController;
+        this.playerData = playerDate;
         state = AnimationStates.Idle;
     }
 
@@ -18,11 +19,12 @@ public class StateIdle : State
     public override void Update()
     {
         // Conexiones de Salida
-        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(playerData.keyCodeLeft) || Input.GetKeyDown(KeyCode.D))
             playerController.SwapStateTo(AnimationStates.Walk);
-        else if (Input.GetMouseButton(0))
+        else if (Input.GetMouseButtonDown(playerData.fireMouseButton))
             playerController.SwapStateTo(AnimationStates.Attack);
-        else if (Input.GetKeyDown(KeyCode.Space))
+        else if (Input.GetKeyDown(playerData.keyCodeJump))
+            //playerController.ConsumeJump();
             playerController.SwapStateTo(AnimationStates.Jump);
     }
 }

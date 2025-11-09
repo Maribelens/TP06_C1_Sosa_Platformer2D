@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec2ccd8fe937b8c4f90e3fd7074a2574, type: 3}
   m_Name: PlayerConfig
   m_EditorClassIdentifier: 
+  keyCodeLeft: 97
+  keyCodeRight: 100
   keyCodeJump: 32
-  keyCodeLeft: 276
-  keyCodeLeftAlt: 97
-  keyCodeRight: 275
-  keyCodeRightAlt: 100
+  fireMouseButton: 0
   maxLife: 100
-  speed: 300
-  jumpForce: 6
+  speed: 400
+  jumpForce: 7
   bulletPrefab: {fileID: 8416296037109472692, guid: 1b654677bbc5fb74abe149cf4b80b542, type: 3}

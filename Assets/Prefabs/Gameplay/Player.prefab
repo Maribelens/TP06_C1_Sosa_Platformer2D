@@ -185,17 +185,14 @@ MonoBehaviour:
   layerMaskGround:
     serializedVersion: 2
     m_Bits: 64
-  currentState: {fileID: 0}
-  previousState: {fileID: 0}
-  canMoveDuringJump: 1
   firePoint: {fileID: 8250217614113056543}
   deathEffectPrefab: {fileID: 2383438687052634223, guid: 72aca1931845fb942a17894e708243eb, type: 3}
   damage: 20
-  audioSource: {fileID: 0}
-  walkClipSFX: {fileID: 8300000, guid: 5a2ca4800b00e3b40b66de5f7087c113, type: 3}
+  audioSource: {fileID: 2742577430018784539}
   jumpClipSFX: {fileID: 8300000, guid: 07f429977da817340b248b545a32ab96, type: 3}
   throwClipSFX: {fileID: 8300000, guid: 711b796b54da0ac4b94843cdc58bfded, type: 3}
-  landClipSFX: {fileID: 8300000, guid: 5a2ca4800b00e3b40b66de5f7087c113, type: 3}
+  currentState: {fileID: 0}
+  previousState: {fileID: 0}
 --- !u!114 &3072101803552094358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,6 +205,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b021b7a0c4a03b49a69d2868d8bb764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageSFX: {fileID: 8300000, guid: afbe2bc463a7dcd4daa38f4fdab68c16, type: 3}
+  sfxSource: {fileID: 0}
   maxLife: 100
   invulnerableTimeLeft: 0
   isInvulnerable: 0

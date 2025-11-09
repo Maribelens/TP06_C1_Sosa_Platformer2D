@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StateHurt : State
 {
-    HealthSystem healthSystem;
+    //HealthSystem healthSystem;
     private float hurtDuration = 0.5f;
     private float timer;
     Vector2 knockBackDirection;

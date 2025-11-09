@@ -1,14 +1,15 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Configs/PlayerConfig")]
 public class PlayerDataSo : ScriptableObject
 {
     [Header("Inputs")]
+    public KeyCode keyCodeLeft = KeyCode.A;
+    public KeyCode keyCodeRight = KeyCode.D;
     public KeyCode keyCodeJump = KeyCode.Space;
-    public KeyCode keyCodeLeft = KeyCode.LeftArrow;
-    public KeyCode keyCodeLeftAlt = KeyCode.A;
-    public KeyCode keyCodeRight = KeyCode.RightArrow;
-    public KeyCode keyCodeRightAlt = KeyCode.D;
+    public int fireMouseButton = 0; // 0 = click izquierdo
+
 
     [Header("PlayerSettings")]
     public int maxLife = 100;

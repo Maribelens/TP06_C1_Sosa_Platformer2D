@@ -25,7 +25,7 @@ public class Bullet : MonoBehaviour
         {
             healthSystem.DoDamage(damage);
         }
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy") && other.CompareTag("Ground"))
         {
             GameObject effect = Instantiate(effectPrefab, transform.position, Quaternion.identity);
             Destroy(effect, 0.5f);
