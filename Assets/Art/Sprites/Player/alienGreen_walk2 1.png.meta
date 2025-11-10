@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 3a074a55faa810b499b0bcae37dc87b8
+guid: 07b65ebf39874d446aad8dd9319ff59f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5596909697689490860
-    second: lock_yellow_0
+      213: -1638075037276015075
+    second: alienGreen_walk2 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: lock_yellow_0
+      name: alienGreen_walk2 1_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 70
-        height: 70
+        height: 96
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,8 +140,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 45a674d9848c352b0800000000000000
-      internalID: -5596909697689490860
+      spriteID: d167ab7be636449e0800000000000000
+      internalID: -1638075037276015075
       vertices: []
       indices: 
       edges: []
@@ -156,8 +156,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      lock_yellow_0: -5596909697689490860
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

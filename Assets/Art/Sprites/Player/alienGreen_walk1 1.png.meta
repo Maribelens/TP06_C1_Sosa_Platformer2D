@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 418aeedc9b5d3eb428a3b7d070715cc6
+guid: 4490d8dc476559647b81ddc3f3c28977
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1431941516188118209
-    second: hud_keyYellow_disabled_0
+      213: -4359986676034820198
+    second: alienGreen_walk1 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: hud_keyYellow_disabled_0
+      name: alienGreen_walk1 1_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 44
-        height: 40
+        width: 68
+        height: 93
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,8 +140,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1cce683e8374fd310800000000000000
-      internalID: 1431941516188118209
+      spriteID: a972285e7373e73c0800000000000000
+      internalID: -4359986676034820198
       vertices: []
       indices: 
       edges: []
@@ -156,8 +156,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      hud_keyYellow_disabled_0: 1431941516188118209
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

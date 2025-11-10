@@ -5,7 +5,7 @@ using UnityEngine;
 public class HealthSystem : MonoBehaviour
 {
     private PlayerController playerController;
-    private State state;
+    //private State state;
 
     public event Action<int, int> onLifeUpdated; // <currentLife, maxLife>
     public event Action onInvulnerableStart;
@@ -29,8 +29,11 @@ public class HealthSystem : MonoBehaviour
     {
         life = maxLife;
         playerController = GetComponent<PlayerController>();
-        state = GetComponent<State>();
-
+        //if(state == null)
+        //
+            //state = GetComponent<State>();
+        //
+        
         sfxSource = GetComponent<AudioSource>();
     }
 

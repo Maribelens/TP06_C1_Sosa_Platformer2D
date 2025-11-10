@@ -6,7 +6,7 @@ public class EnemyController : MonoBehaviour
     [Header("Referencias")]
     [SerializeField] private Rigidbody2D rb2D;
     [SerializeField] private Animator animator;
-    [SerializeField] private EnemyDataSo enemyData;
+    //[SerializeField] private EnemyDataSo enemyData;
     [SerializeField] private HealthSystem healthSystem;
     [SerializeField] private GameObject deathEffectPrefab;
 
@@ -42,7 +42,7 @@ public class EnemyController : MonoBehaviour
 
     private void Start()
     {
-        healthSystem.maxLife = enemyData.maxLife;
+        //healthSystem.maxLife = enemyData.maxLife;
     }
 
     private void Update()
