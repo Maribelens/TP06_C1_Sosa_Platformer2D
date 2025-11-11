@@ -2,7 +2,7 @@
 # [World Out Of Tune]
 
 ## 🎮 Descripción del Juego (Español)
-**World Out Of Tune** es un juego de plataformas 2D donde el jugador debe [explica el objetivo: por ejemplo, “llegar a la meta evitando enemigos y obstáculos antes de que el tiempo se acabe”].
+**World Out Of Tune** es un juego de plataformas 2D donde el jugador debe llegar a la meta evitando enemigos y obstáculos.
 
 Tu misión es avanzar, recolectar objetos, esquivar trampas y alcanzar la meta antes de que se agoten tus vidas.
 
@@ -20,16 +20,15 @@ Tu misión es avanzar, recolectar objetos, esquivar trampas y alcanzar la meta a
 ---
 
 ## 🎮 Game Description (English)
-**World Out Of Tune** is a 2D platformer game where the player must reach the goal by avoiding enemies and obstacles before your life is over.
+**World Out Of Tune** is a 2D platformer game where the player must reach the goal by avoiding enemies and obstacles.
 
 Your mission is to move through the levels, collect items, dodge traps, and reach the finish line before your life is over.
 
 ### 🕹️ How to Play:
-- **Move:** [Arrow keys]
+- **Move:** [A] [D]
 - **Jump:** [Space]
 - **Pause:** [P]
-- **Goal:** Reach the goal before your life is over
-
+- **Goal:** Reach the goal while your life is´nt over.
 ### 🏁 Conditions:
 - **Win:** Reach the goal.  
 - **Lose:** Lose all lives or time runs out.  
