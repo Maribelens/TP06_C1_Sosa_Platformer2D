@@ -805,7 +805,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playButton: {fileID: 478114488}
   creditsButton: {fileID: 367197890}
-  exitButton: {fileID: 0}
+  exitButton: {fileID: 1585622201}
   panelCredits: {fileID: 130397750}
   creditsBackButton: {fileID: 108856309}
   menuMusic: {fileID: 8300000, guid: 2c8415864b6c16045806b1478f935bc3, type: 3}

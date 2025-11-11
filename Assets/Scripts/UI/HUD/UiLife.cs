@@ -14,6 +14,13 @@ public class UiLife : MonoBehaviour
         target.onDie += HealthSystem_onDie;
     }
 
+    private void OnDestroy()
+    {
+        // Evita referencias colgantes al destruir el objeto
+        target.onLifeUpdated -= HealthSystem_onLifeUpdated;
+        target.onDie -= HealthSystem_onDie;
+    }
+
     public void HealthSystem_onLifeUpdated(int current, int max)
     {
         // Actualiza la barra de vida según el porcentaje restante
@@ -25,12 +32,5 @@ public class UiLife : MonoBehaviour
     {
         // Vacía la barra al morir el jugador
         lifeBar.fillAmount = 0;
-    }
-
-    private void OnDestroy()
-    {
-        // Evita referencias colgantes al destruir el objeto
-        target.onLifeUpdated -= HealthSystem_onLifeUpdated;
-        target.onDie -= HealthSystem_onDie;
     }
 }
