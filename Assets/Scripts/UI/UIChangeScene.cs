@@ -7,6 +7,7 @@ public class UIChangeScene : MonoBehaviour
     [Header("Menu Panel")]
     [SerializeField] private Button playButton;
     [SerializeField] private Button creditsButton;
+    [SerializeField] private Button exitButton;
 
     [Header("Credits Panel")]
     [SerializeField] private GameObject panelCredits;
@@ -20,14 +21,15 @@ public class UIChangeScene : MonoBehaviour
         playButton.onClick.AddListener(OnPlayClicked);
         creditsButton.onClick.AddListener(OnCreditsClicked);
         creditsBackButton.onClick.AddListener(OnCreditsBackClicked);
+        exitButton.onClick.AddListener(OnExitClicked);
 
         menuMusicSource.clip = menuMusic;
         menuMusicSource.Play();
     }
 
-    private void OnCreditsBackClicked()
+    private void OnPlayClicked()
     {
-        panelCredits.SetActive(false);
+        SceneManager.LoadScene(1);
     }
 
     private void OnCreditsClicked()
@@ -35,9 +37,20 @@ public class UIChangeScene : MonoBehaviour
         panelCredits.SetActive(true);
     }
 
-    private void OnPlayClicked()
+    private void OnExitClicked()
     {
-        SceneManager.LoadScene(1);
+        // Cierra el juego en una build real (Windows, Android, etc.)
+        Application.Quit();
+
+        // Si estás en el Editor, detiene el modo Play
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #endif
+    }
+
+    private void OnCreditsBackClicked()
+    {
+        panelCredits.SetActive(false);
     }
 
     public void OnDestroy()
