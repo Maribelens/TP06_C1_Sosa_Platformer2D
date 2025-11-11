@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class HealthSystem : MonoBehaviour
 {
-    private PlayerController playerController;
     //private State state;
 
     public event Action<int, int> onLifeUpdated; // <currentLife, maxLife>
@@ -28,7 +27,6 @@ public class HealthSystem : MonoBehaviour
     private void Awake()
     {
         life = maxLife;
-        playerController = GetComponent<PlayerController>();
         //if(state == null)
         //
             //state = GetComponent<State>();

@@ -119,36 +119,4 @@ public class GameManager : MonoBehaviour
         pickablesUI.UpdateAmountDiamonds(diamonds);
         Debug.Log("Diamantes: " + diamonds);
     }
-
-
-    //public void PlayerDefeated()
-    //{
-    //    Time.timeScale = 0;
-
-    //    if (musicSource != null && musicUISource != null)
-    //    {
-    //        musicSource.Stop();
-    //        musicUISource.clip = gameOverMusic;
-    //        musicUISource.Play();
-    //    }
-    //    uiEndGame.ShowGameOverScreen();
-    //    //SetGameState(GameState.GameOver);
-    //    Debug.Log("El alien fue derrotado");
-    //}
-
-    //public void PlayerVictory()
-    //{
-    //    Time.timeScale = 0;
-
-    //    if(musicSource != null && musicUISource != null)
-    //    {
-    //        musicSource.Stop();
-    //        musicUISource.clip = victoryMusic;
-    //        musicUISource.Play();
-    //    }
-    //    uiEndGame.ShowVictoryScreen();
-    //    //SetGameState(GameState.Victory);
-    //    Debug.Log("El alien ha ganado");
-    //}
-
 }
