@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity Web Player | TP06_C1_Sosa_Platformer2D</title>
+    <title>Unity Web Player | TP06_C1_Sosa_WorldOutOfTune</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
   </head>
@@ -20,7 +20,7 @@
       <div id="unity-footer">
         <div id="unity-logo-title-footer"></div>
         <div id="unity-fullscreen-button"></div>
-        <div id="unity-build-title">TP06_C1_Sosa_Platformer2D</div>
+        <div id="unity-build-title">TP06_C1_Sosa_WorldOutOfTune</div>
       </div>
     </div>
     <script>
@@ -59,8 +59,8 @@
         frameworkUrl: buildUrl + "/BuildTempo.framework.js.br",
         codeUrl: buildUrl + "/BuildTempo.wasm.br",
         streamingAssetsUrl: "StreamingAssets",
-        companyName: "DefaultCompany",
-        productName: "TP06_C1_Sosa_Platformer2D",
+        companyName: "MB-Lens",
+        productName: "TP06_C1_Sosa_WorldOutOfTune",
         productVersion: "1.0",
         showBanner: unityShowBanner,
       };
@@ -93,6 +93,7 @@
         canvas.style.height = "600px";
       }
 
+      canvas.style.background = "url('" + buildUrl + "/BuildTempo.jpg') center / cover";
       document.querySelector("#unity-loading-bar").style.display = "block";
 
       var script = document.createElement("script");
