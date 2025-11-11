@@ -1,15 +1,15 @@
 using UnityEngine;
-using UnityEngine.Audio;
 
 public class EnemyController : MonoBehaviour
 {
-    [Header("Referencias")]
+    // --------------------- REFERENCIAS ---------------------
+    [Header("References")]
     [SerializeField] private Rigidbody2D rb2D;
     [SerializeField] private Animator animator;
-    //[SerializeField] private EnemyDataSo enemyData;
     [SerializeField] private HealthSystem healthSystem;
     [SerializeField] private GameObject deathEffectPrefab;
 
+    // --------------------- MOVIMIENTO ---------------------
     [Header("Movement")]
     [SerializeField] private float currentSpeed;
     [SerializeField] private float speed;
@@ -18,6 +18,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private bool touchingGround;
     [SerializeField] LayerMask limitsLayers;
 
+    // --------------------- AUDIO ---------------------
     [Header("Audio")]
     [SerializeField] private AudioClip slimeSFX;
     [SerializeField] private AudioClip boomSFX;
@@ -40,19 +41,17 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        //healthSystem.maxLife = enemyData.maxLife;
-    }
-
     private void Update()
     {
+        // Detecta si hay suelo o límite frente al enemigo
         touchingGround = Physics2D.Raycast(frontController.position, transform.right, distanceRay, limitsLayers);  
     }
 
     private void FixedUpdate()
     {
         rb2D.velocity = new Vector2(currentSpeed, rb2D.velocity.y);
+
+        // Invierte dirección al llegar al borde o chocar con límite
         if (touchingGround)
         {
             currentSpeed *= -1;
@@ -60,11 +59,6 @@ public class EnemyController : MonoBehaviour
         }
         LookByMovementDirection();
     }
-
-    //void ControlAnimations()
-    //{
-    //    animator.SetInteger("State", Mathf.Abs(rb2D.velocity.x));
-    //}
 
     private void LookByMovementDirection()
     {
@@ -84,6 +78,7 @@ public class EnemyController : MonoBehaviour
         Gizmos.DrawLine(frontController.position, frontController.position + distanceRay * transform.right);
     }
 
+    // Se ejecuta cuando el enemigo muere: genera efecto y sonido
     private void HealthSystem_onDie()
     {
         if (deathEffectPrefab != null)

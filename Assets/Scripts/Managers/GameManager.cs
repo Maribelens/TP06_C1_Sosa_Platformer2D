@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    ////public static GameManager instance;
     public enum GameState { Playing, Paused, GameOver, Victory }
     [SerializeField] private GameState currentState;
     public GameState CurrentState => currentState;
@@ -13,7 +12,7 @@ public class GameManager : MonoBehaviour
     public event Action OnVictory;
 
     [Header("References")]
-    [SerializeField] private PickablesUI pickablesUI;
+    [SerializeField] private UIPickables uiPickables;
     [SerializeField] private UIResultScreen resultsScreenUI;
     [SerializeField] private HealthSystem health;
 
@@ -31,8 +30,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         Time.timeScale = 1;
-        //SetGameState(GameState.Playing);
-        if (pickablesUI == null) Debug.LogError("UiElements no asignado en GameManager");
+        if (uiPickables == null) Debug.LogError("UiElements no asignado en GameManager");
         if (musicSource == null) Debug.LogError("AudioSource de gameplay no asignado");
 
         if (musicSource != null)
@@ -84,11 +82,11 @@ public class GameManager : MonoBehaviour
         }
 
     }
-    //resetear variables
 
     private void PlayMusic(AudioClip clip)
     {
-        if(musicSource != null && clip != null)
+        // Cambia la música según el estado actual del juego
+        if (musicSource != null && clip != null)
         {
             musicSource.Stop();
             musicUISource.clip = clip;
@@ -98,6 +96,7 @@ public class GameManager : MonoBehaviour
 
     public void ActivateProtection()
     {
+        // Activa la invulnerabilidad temporal del jugador
         if (health == null)
         {
             Debug.LogWarning("ActivateProtection: health es null");
@@ -110,13 +109,14 @@ public class GameManager : MonoBehaviour
     public void AddCoins(int amount)
     {
         coins += amount;
-        pickablesUI.UpdateAmountCoins(coins);
+        uiPickables.UpdateAmountCoins(coins);
         Debug.Log("Monedas: " + coins);
     }
+
     public void AddDiamonds(int amount)
     {
         diamonds += amount;
-        pickablesUI.UpdateAmountDiamonds(diamonds);
+        uiPickables.UpdateAmountDiamonds(diamonds);
         Debug.Log("Diamantes: " + diamonds);
     }
 }

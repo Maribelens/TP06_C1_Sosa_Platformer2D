@@ -24,7 +24,6 @@ public class UIResultScreen : MonoBehaviour
     private void Awake()
     {
         sfxSourceUI = GetComponent<AudioSource>();
-        //gameoverPanel.GetComponent<CanvasGroup>();
         SetCanvasGroup(gameoverPanel, false);
         SetCanvasGroup(victoryPanel, false);
         AddButtonsListeners();
@@ -37,16 +36,17 @@ public class UIResultScreen : MonoBehaviour
 
     private void OnEnable()
     {
+        // Suscribe los eventos del GameManager.
         if (gameManager != null)
         {
             gameManager.OnGameOver += ShowGameOverScreen;
             gameManager.OnVictory += ShowVictoryScreen;
-            //gameManager.OnStateChanged += HandleStateChange;
         }
     }
 
     private void OnDisable()
     {
+        // Desuscribe los eventos para evitar errores.
         gameManager.OnGameOver -= ShowGameOverScreen;
         gameManager.OnVictory -= ShowVictoryScreen;
     }
@@ -58,6 +58,7 @@ public class UIResultScreen : MonoBehaviour
 
     private void AddButtonsListeners()
     {
+        // Asigna funciones a los botones de ambos paneles.
         gameOverPlayAgainButton.onClick.AddListener(OnPlayAgainClicked);
         gameOverMainMenuButton.onClick.AddListener(OnExitGameClicked);
         victoryPlayAgainButton.onClick.AddListener(OnPlayAgainClicked);
@@ -65,6 +66,7 @@ public class UIResultScreen : MonoBehaviour
     }
     private void RemoveButtonsListeners()
     {
+        // Elimina los listeners para prevenir referencias colgantes.
         gameOverPlayAgainButton.onClick.RemoveAllListeners();
         gameOverMainMenuButton.onClick.RemoveAllListeners();
         victoryPlayAgainButton.onClick.RemoveAllListeners();
@@ -72,46 +74,34 @@ public class UIResultScreen : MonoBehaviour
     }
     private void SetCanvasGroup(CanvasGroup canvasGroup, bool state)
     {
+        // Activa o desactiva la visibilidad e interacción de un panel.
         canvasGroup.alpha = state ? 1 : 0;
         canvasGroup.interactable = state;
         canvasGroup.blocksRaycasts = state;
     }
-    //private void HandleStateChange(GameManager.GameState state)
-    //{
-    //    switch (state)
-    //    {
-    //        case GameManager.GameState.GameOver:
-    //            ShowGameOverScreen();
-    //            break;
-    //        case GameManager.GameState.Victory:
-    //            ShowVictoryScreen();
-    //            break;
-    //    }
-    //}
     public void ShowGameOverScreen()
     {
-        //show elements
+        //muestra el panel de Game Over
         gameoverPanel.alpha = 1;
         gameoverPanel.interactable = true;
         gameoverPanel.blocksRaycasts = true;
-        //panelGameOver.SetActive(true);
     }
     public void ShowVictoryScreen()
     {
-        //show elements
+        //muestra el panel de Victoria
         victoryPanel.alpha = 1;
         victoryPanel.interactable = true;
         victoryPanel.blocksRaycasts = true;
-
-        //panelVictory.SetActive(true);
     }
     private void OnPlayAgainClicked()
     {
+        // Reinicia el juego cargando la escena principal.
         SceneManager.LoadScene(1);
         Time.timeScale = 1;
     }
     private void OnExitGameClicked()
     {
+        // Vuelve al menú principal.
         SceneManager.LoadScene(0);
     }
 }

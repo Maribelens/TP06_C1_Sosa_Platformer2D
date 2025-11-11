@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class HealthSystem : MonoBehaviour
 {
-    //private State state;
-
-    public event Action<int, int> onLifeUpdated; // <currentLife, maxLife>
+    // Eventos de estado de vida e invulnerabilidad
+    public event Action<int, int> onLifeUpdated;    // (vida actual, vida máxima)
     public event Action onInvulnerableStart;
     public event Action onInvulnerableEnd;
     public event Action<float> onInvulnerabilityTimerUpdate;
@@ -21,17 +20,10 @@ public class HealthSystem : MonoBehaviour
     public float invulnerableTimeLeft = 0f;
     public bool isInvulnerable = false;
 
-    //[SerializeField] private GameManager instance;
-
 
     private void Awake()
     {
         life = maxLife;
-        //if(state == null)
-        //
-            //state = GetComponent<State>();
-        //
-        
         sfxSource = GetComponent<AudioSource>();
     }
 
@@ -51,7 +43,7 @@ public class HealthSystem : MonoBehaviour
     private IEnumerator InvulnerabilityRoutine(float duration)
     {
         isInvulnerable = true;
-        invulnerableTimeLeft = duration; // Por ejemplo, 5 segundos
+        invulnerableTimeLeft = duration;
         onInvulnerableStart?.Invoke();
 
         while (invulnerableTimeLeft > 0)
@@ -82,7 +74,6 @@ public class HealthSystem : MonoBehaviour
 
         if (life <= 0)
         {
-            //life = 0;
             onDie?.Invoke();
         }
         else
@@ -93,15 +84,6 @@ public class HealthSystem : MonoBehaviour
 
         Debug.Log("DoDamage", gameObject);
     }
-
-    //private void OnTriggerEnter2D(Collider2D other)
-    //{
-    //    if (other.CompareTag("Player"))
-    //    {
-    //        instance.ActivateProtection();
-    //        onDie?.Invoke();
-    //    }
-    //}
 
     public void Heal(int plus)
     {
@@ -118,5 +100,6 @@ public class HealthSystem : MonoBehaviour
 
         Debug.Log("Heal");
         onLifeUpdated?.Invoke(life, maxLife);
+        Debug.Log("Curación aplicada");
     }
 }
