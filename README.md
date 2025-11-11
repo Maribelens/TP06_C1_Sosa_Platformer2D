@@ -50,12 +50,6 @@ Your mission is to move through the levels, collect items, dodge traps, and reac
 - 🎮 **Jugar en Itch.io:** --> https://mb-lens.itch.io/world-out  
 - 💾 **Repositorio en GitHub:** [https://github.com/tuusuario/tu-repo]  
 
----
-
-## 📹 Video Gameplay
-[link]
-
----
 
 ## ⚙️ Builds
 - 🪟 **Windows Build:** disponible en Itch.io
