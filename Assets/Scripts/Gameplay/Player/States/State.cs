@@ -11,20 +11,11 @@ public abstract class State
         Debug.Log($"OnEnter de {state}");
     }
 
-    //public virtual void ReadInput() 
-    //{
-    //    // Para entradas del jugador
-    //}
-
-    //public virtual void FixedUpdate() 
-    //{
-    //    // Para movimiento físico
-    //}
-
     public virtual void Update()
     {
         Debug.Log($"Update de {state}");
     }
+
     public virtual void OnExit()
     {
         Debug.Log($"OnExit de {state}");

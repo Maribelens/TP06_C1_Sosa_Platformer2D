@@ -1,10 +1,8 @@
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.LowLevel;
 
 public class StateWalk : State
 {
-    //HealthSystem healthSystem;
+    private float horizontalInput;
     public StateWalk(PlayerController playerController, PlayerDataSo playerData)
     {
         this.playerController = playerController;
@@ -16,29 +14,9 @@ public class StateWalk : State
     {
         Debug.Log($"Entro de {state}");
         playerController.ChangeAnimatorState((int)state);
+        horizontalInput = 0f;
     }
 
-    //public override void ReadInput()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Space))
-    //        playerController.SwapStateTo(AnimationStates.Jump);
-    //    else if (Input.GetKeyUp(KeyCode.A) && Input.GetKeyUp(KeyCode.D))
-    //        playerController.SwapStateTo(AnimationStates.Idle);
-
-    //    // Capturás input, pero no movés todavía
-    //    if (Input.GetKey(KeyCode.A))
-    //        horizontalInput = -1;
-    //    else if (Input.GetKey(KeyCode.D))
-    //        horizontalInput = 1;
-    //    else
-    //        horizontalInput = 0;
-    //}
-    
-    //public override void FixedUpdate()
-    //{
-    //    if (horizontalInput != 0)
-    //        playerController.Movement(Vector3.right * horizontalInput);
-    //}
     public override void Update()
     {
         // Conexiones de Salida

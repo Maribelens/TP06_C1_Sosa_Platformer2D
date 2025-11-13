@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
 
     // --------------------- COMPONENTES ---------------------
     private Rigidbody2D rigidBody;
-    private Animator animator;     
+    private Animator animator;
 
     [Header("Jump")]
     [SerializeField] private LayerMask layerMaskGround;
@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
     private float lastDamageTime;
 
     [Header("Audio")]
-    [SerializeField] private AudioSource audioSource;       
+    [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip jumpClipSFX;
     [SerializeField] private AudioClip throwClipSFX;
 
@@ -37,8 +37,6 @@ public class PlayerController : MonoBehaviour
     private List<State> states = new List<State>();
     [SerializeField] private State currentState;
     [SerializeField] private State previousState;
-
-
 
     // --------------------- MÉTODOS UNITY ---------------------
     private void Awake()
@@ -59,15 +57,14 @@ public class PlayerController : MonoBehaviour
         states.Add(new StateAttack(this));
         states.Add(new StateHurt(this));
 
-        SwapStateTo(AnimationStates.Idle);    
+        SwapStateTo(AnimationStates.Idle);
     }
     private void Update()
     {
         if (currentState != null)
-        {
             currentState.Update();
-        }      
     }
+
 
     // --------------------- GESTIÓN DE ESTADOS ---------------------
     public void SwapStateTo(AnimationStates nextState)
@@ -77,7 +74,7 @@ public class PlayerController : MonoBehaviour
             if (state.state == nextState)
             {
                 currentState?.OnExit();
-
+                previousState = currentState;
                 currentState = state;
                 currentState.OnEnter();
                 break;
@@ -114,13 +111,15 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
-
+    /*Vector3 direction, float horizontalInput*/
     public void Movement(Vector3 direction, float horizontalInput)
     {
-        if (!IsGroundCollision()) { return; }
+        if (!IsGroundCollision()) return;
+
+        //Vector2 direction = new Vector2(horizontalInput, 0);
         rigidBody.AddForce(direction * playerData.speed * Time.deltaTime, ForceMode2D.Force);
 
-        if ((GetVelocityX() > 0 && !LookingRight()) || (GetVelocityX() < 0 && LookingRight()))
+        if ((rigidBody.velocity.x > 0 && !LookingRight()) || (rigidBody.velocity.x < 0 && LookingRight()))
         {
             TurnAround();
         }
@@ -145,10 +144,19 @@ public class PlayerController : MonoBehaviour
 
     public void Jump()
     {
+        if (!IsGroundCollision() && currentJumps >= maxJumps) return;
+
+        currentJumps++;
         rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0);
         rigidBody.AddForce(Vector2.up * playerData.jumpForce, ForceMode2D.Impulse);
+
         audioSource.clip = jumpClipSFX;
         audioSource.Play();
+    }
+
+    public void ResetJumps()
+    {
+        currentJumps = 0;
     }
 
 
@@ -173,7 +181,7 @@ public class PlayerController : MonoBehaviour
 
     // --------------------- COLISIONES ---------------------
     private void OnCollisionEnter2D(Collision2D collision)
-    { 
+    {
         if (collision.collider.CompareTag("Enemy") && Time.time > lastDamageTime + damageCooldown)
         {
             healthSystem.DoDamage(damage);
@@ -184,8 +192,8 @@ public class PlayerController : MonoBehaviour
     // --------------------- MUERTE Y DAÑO ---------------------
     private void HealthSystem_onDie()
     {
-        if (deathEffectPrefab != null) 
-        { 
+        if (deathEffectPrefab != null)
+        {
             GameObject effect = Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
             Destroy(effect, 2f);
         }

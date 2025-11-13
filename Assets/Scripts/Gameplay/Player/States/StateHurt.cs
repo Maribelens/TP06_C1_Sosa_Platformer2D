@@ -1,10 +1,8 @@
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class StateHurt : State
 {
-    //HealthSystem healthSystem;
+
     private float hurtDuration = 0.5f;
     private float timer;
     Vector2 knockBackDirection;
