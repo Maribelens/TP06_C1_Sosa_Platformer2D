@@ -27,7 +27,7 @@ public class Bullet : MonoBehaviour
 
 
         // Crea un efecto visual y destruye la bala al colisionar
-        if (other.CompareTag("Enemy") && other.CompareTag("Ground"))
+        if (other.CompareTag("Enemy") || other.CompareTag("Ground"))
         {
             GameObject effect = Instantiate(effectPrefab, transform.position, Quaternion.identity);
             Destroy(effect, 0.5f);

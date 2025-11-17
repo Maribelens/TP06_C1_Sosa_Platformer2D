@@ -63,7 +63,7 @@ public class UIAudioSettings : MonoBehaviour
     {
         masterSlider.value = PlayerPrefs.GetFloat("masterVolume");
         musicSlider.value = PlayerPrefs.GetFloat("musicVolume");
-        masterSlider.value = PlayerPrefs.GetFloat("sfxVolume");
+        sfxSlider.value = PlayerPrefs.GetFloat("sfxVolume");
     }
 
     private void OnDestroy()
